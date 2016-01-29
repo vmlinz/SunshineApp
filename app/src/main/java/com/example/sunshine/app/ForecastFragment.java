@@ -1,5 +1,6 @@
 package com.example.sunshine.app;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
@@ -66,7 +67,9 @@ public class ForecastFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String forcast = forecastAdapter.getItem(i);
-                Toast.makeText(getActivity(), forcast, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getContext(), DetailActivity.class)
+                        .putExtra(Intent.EXTRA_TEXT, forcast);
+                startActivity(intent);
             }
         });
         return root;
