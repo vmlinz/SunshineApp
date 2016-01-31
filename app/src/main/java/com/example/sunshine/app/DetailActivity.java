@@ -46,16 +46,8 @@ public class DetailActivity extends AppCompatActivity {
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
-        // get the share intent
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-
-        // set the share intent text
-        String text = String.valueOf(mTextView.getText()) + " #" + getString(R.string.app_name) ;
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-
-        // set share intent to ShareActionProvider
-        setShareIntent(intent);
+        // create the share intent and set it to share action provider
+        setShareIntent(getShareIntent());
         return true;
     }
 
@@ -71,6 +63,17 @@ public class DetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private Intent getShareIntent() {
+        final String HASH_TAG = " #";
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        intent.setType("text/plain");
+        String text = String.valueOf(mTextView.getText()) + HASH_TAG + getString(R.string.app_name);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+
+        return intent;
     }
 
     private void setShareIntent(Intent intent) {
