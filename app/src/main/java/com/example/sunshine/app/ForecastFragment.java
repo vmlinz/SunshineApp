@@ -1,8 +1,10 @@
 package com.example.sunshine.app;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import org.json.JSONException;
 
@@ -40,9 +41,6 @@ public class ForecastFragment extends Fragment {
 
     public ForecastFragment() {
         String[] forecastStringsArray = {
-                "Today-Sunny-88/64",
-                "Tomorrow-Cloudy-85/64",
-                "Weds-Rainy-81/63"
         };
         forecastStrings = new ArrayList<>(Arrays.asList(forecastStringsArray));
     }
@@ -51,6 +49,12 @@ public class ForecastFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
     }
 
     @Override
@@ -84,16 +88,23 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_refresh) {
-            new FetchWeatherTask().execute("94043");
+            updateWeather();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void updateWeather() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
+        String post = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        Log.d(TAG, post);
+        new FetchWeatherTask().execute(post);
+    }
+
     private class FetchWeatherTask extends AsyncTask<String, Void, String[]> {
         @Override
         protected String[] doInBackground(String... params) {
-            WeatherDataParser parser = WeatherDataParser.getInstance();
+            WeatherDataParser parser = new WeatherDataParser(getActivity());
             String weatherData = getWeatherData(params);
             try {
                 Log.d(TAG, weatherData);
