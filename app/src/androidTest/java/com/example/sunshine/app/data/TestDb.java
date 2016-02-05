@@ -22,10 +22,6 @@ import android.test.AndroidTestCase;
 
 import java.util.HashSet;
 
-import static com.example.sunshine.app.data.TestUtilities.createNorthPoleLocationValues;
-import static com.example.sunshine.app.data.TestUtilities.createWeatherValues;
-import static com.example.sunshine.app.data.TestUtilities.validateCursor;
-
 public class TestDb extends AndroidTestCase {
 
     public static final String LOG_TAG = TestDb.class.getSimpleName();
@@ -142,7 +138,7 @@ public class TestDb extends AndroidTestCase {
 
         // Create ContentValues of what you want to insert
         // (you can use the createWeatherValues TestUtilities function if you wish)
-        ContentValues values = createWeatherValues(locationRowId);
+        ContentValues values = TestUtilities.createWeatherValues(locationRowId);
 
         // Insert ContentValues into database and get a row ID back
         long weatherRowId = db.insert(WeatherContract.WeatherEntry.TABLE_NAME, null, values);
@@ -155,7 +151,7 @@ public class TestDb extends AndroidTestCase {
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
-        validateCursor("Weather data don't match", cursor, values);
+        TestUtilities.validateCursor("Weather data don't match", cursor, values);
 
         // Finally, close the cursor and database
         cursor.close();
@@ -175,7 +171,7 @@ public class TestDb extends AndroidTestCase {
         assertEquals(true, db.isOpen());
         // Create ContentValues of what you want to insert
         // (you can use the createNorthPoleLocationValues if you wish)
-        ContentValues locationValues = createNorthPoleLocationValues();
+        ContentValues locationValues = TestUtilities.createNorthPoleLocationValues();
 
         // Insert ContentValues into database and get a row ID back
         long row = db.insert(WeatherContract.LocationEntry.TABLE_NAME, null, locationValues);
@@ -187,7 +183,7 @@ public class TestDb extends AndroidTestCase {
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
-        validateCursor("validate cursor", cursor, locationValues);
+        TestUtilities.validateCursor("validate cursor", cursor, locationValues);
 
         // Finally, close the cursor and database
         cursor.close();
