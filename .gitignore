@@ -1,7 +1,7 @@
 
-# Created by https://www.gitignore.io/api/intellij,android
+# Created by https://www.gitignore.io/api/jetbrains,android
 
-### Intellij ###
+### JetBrains ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
 
 *.iml
