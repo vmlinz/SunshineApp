@@ -6,6 +6,7 @@ import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -16,30 +17,6 @@ public class ForcastAdapter extends CursorAdapter {
         super(context, c, flags);
     }
 
-    private String formatHighLows(double high, double low) {
-        boolean isMetric = Utility.isMetric(mContext);
-        String highLowStr = Utility.formatTemperature(high, isMetric) + "/" + Utility.formatTemperature(low, isMetric);
-        return highLowStr;
-    }
-
-    /*
-        This is ported from FetchWeatherTask --- but now we go straight from the cursor to the
-        string.
-     */
-    private String convertCursorRowToUXFormat(Cursor cursor) {
-        // get row indices for our cursor
-        int idx_max_temp = ForecastFragment.COL_WEATHER_MAX_TEMP;
-        int idx_min_temp = ForecastFragment.COL_WEATHER_MIN_TEMP;
-        int idx_date = ForecastFragment.COL_WEATHER_DATE;
-        int idx_short_desc = ForecastFragment.COL_WEATHER_DESC;
-        String highAndLow = formatHighLows(
-                cursor.getDouble(idx_max_temp),
-                cursor.getDouble(idx_min_temp));
-        return Utility.formatDate(cursor.getLong(idx_date)) +
-                " - " + cursor.getString(idx_short_desc) +
-                " - " + highAndLow;
-    }
-
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = LayoutInflater.from(context).inflate(R.layout.list_item_forecast, parent, false);
@@ -48,7 +25,35 @@ public class ForcastAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView tv = (TextView)view;
-        tv.setText(convertCursorRowToUXFormat(cursor));
+        TextView dateTextView = (TextView)view.findViewById(R.id.list_item_date_textview);
+        TextView forecastTextView  = (TextView)view.findViewById(R.id.list_item_forecast_textview);
+        TextView highTextView = (TextView)view.findViewById(R.id.list_item_high_textview);
+        TextView lowTextView = (TextView)view.findViewById(R.id.list_item_low_textview);
+        ImageView iconImageView = (ImageView)view.findViewById(R.id.list_item_icon);
+
+        // get weatherId
+        int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
+
+        // get metric
+        boolean isMetric = Utility.isMetric(context);
+
+        // set icon
+        iconImageView.setImageResource(R.mipmap.ic_launcher);
+
+        // read date and date textview
+        long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
+        dateTextView.setText(Utility.getFriendlyDayString(context, date));
+
+        // read forecast and set forecast textview
+        String forecast = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
+        forecastTextView.setText(forecast);
+
+        // read max temp and set high textview
+        float high = cursor.getFloat(ForecastFragment.COL_WEATHER_MAX_TEMP);
+        highTextView.setText(Utility.formatTemperature(high, isMetric));
+
+        // read min temp and set low textview
+        float low = cursor.getFloat(ForecastFragment.COL_WEATHER_MIN_TEMP);
+        lowTextView.setText(Utility.formatTemperature(low, isMetric));
     }
 }
