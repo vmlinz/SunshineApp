@@ -31,14 +31,14 @@ public class Utility {
                 .equals(context.getString(R.string.pref_units_metric));
     }
 
-    static String formatTemperature(double temperature, boolean isMetric) {
+    static String formatTemperature(Context context, double temperature, boolean isMetric) {
         double temp;
         if ( !isMetric ) {
             temp = 9*temperature/5+32;
         } else {
             temp = temperature;
         }
-        return String.format("%.0f", temp);
+        return context.getString(R.string.format_temperature, temp);
     }
 
     static String formatDate(long dateInMillis) {
@@ -147,9 +147,9 @@ public class Utility {
                 " - " + highAndLow;
     }
 
-    public static String formatHighLows(Context mContext, double high, double low) {
-        boolean isMetric = isMetric(mContext);
-        String highLowStr = formatTemperature(high, isMetric) + "/" + formatTemperature(low, isMetric);
+    public static String formatHighLows(Context context, double high, double low) {
+        boolean isMetric = isMetric(context);
+        String highLowStr = formatTemperature(context, high, isMetric) + "/" + formatTemperature(context, low, isMetric);
         return highLowStr;
     }
 }

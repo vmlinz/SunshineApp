@@ -25,7 +25,7 @@ import com.orhanobut.logger.Logger;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class DetailActivityFragment extends Fragment
+public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
     private ShareActionProvider mShareActionProvider;
     private String mForecast;
@@ -48,7 +48,7 @@ public class DetailActivityFragment extends Fragment
     private static final int LOADER_ID = 1;
     private String mLocation;
 
-    public DetailActivityFragment() {
+    public DetailFragment() {
         setHasOptionsMenu(true);
     }
 
@@ -96,10 +96,10 @@ public class DetailActivityFragment extends Fragment
 
         boolean isMetric = Utility.isMetric(getActivity());
 
-        String high = Utility.formatTemperature(
+        String high = Utility.formatTemperature(getActivity(),
                 data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
 
-        String low = Utility.formatTemperature(
+        String low = Utility.formatTemperature(getActivity(),
                 data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
 
         mForecast = String.format("%s - %s - %s/%s", dateString, weatherDescription, high, low);

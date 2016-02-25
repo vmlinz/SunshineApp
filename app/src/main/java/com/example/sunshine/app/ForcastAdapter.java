@@ -13,23 +13,48 @@ import android.widget.TextView;
  * Created by vmlinz on 2/17/16.
  */
 public class ForcastAdapter extends CursorAdapter {
+    private static final int VIEW_TYPE_TODAY = 0;
+    private static final int VIEW_TYPE_FUTURE_DAY = 1;
+    private static final int VIEW_TYPE_COUNT = 2;
+
     public ForcastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
 
     @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return VIEW_TYPE_COUNT;
+    }
+
+    @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_forecast, parent, false);
+        int itemViewType = getItemViewType(cursor.getPosition());
+        int layoutId = -1;
+
+        layoutId = (itemViewType == VIEW_TYPE_TODAY)
+                ? R.layout.list_item_forecast_today : R.layout.list_item_forecast;
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
         return view;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        TextView dateTextView = (TextView)view.findViewById(R.id.list_item_date_textview);
-        TextView forecastTextView  = (TextView)view.findViewById(R.id.list_item_forecast_textview);
-        TextView highTextView = (TextView)view.findViewById(R.id.list_item_high_textview);
-        TextView lowTextView = (TextView)view.findViewById(R.id.list_item_low_textview);
-        ImageView iconImageView = (ImageView)view.findViewById(R.id.list_item_icon);
+        // get viewHolder from view tag
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
+
+        // get cached view memebers from view holder
+        TextView dateTextView = viewHolder.dateView;
+        TextView forecastTextView  = viewHolder.forcastView;
+        TextView highTextView = viewHolder.highView;
+        TextView lowTextView = viewHolder.lowView;
+        ImageView iconImageView = viewHolder.iconView;
 
         // get weatherId
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
@@ -50,10 +75,26 @@ public class ForcastAdapter extends CursorAdapter {
 
         // read max temp and set high textview
         float high = cursor.getFloat(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        highTextView.setText(Utility.formatTemperature(high, isMetric));
+        highTextView.setText(Utility.formatTemperature(context, high, isMetric));
 
         // read min temp and set low textview
         float low = cursor.getFloat(ForecastFragment.COL_WEATHER_MIN_TEMP);
-        lowTextView.setText(Utility.formatTemperature(low, isMetric));
+        lowTextView.setText(Utility.formatTemperature(context, low, isMetric));
+    }
+
+    public static class ViewHolder {
+        public final ImageView iconView;
+        public final TextView dateView;
+        public final TextView forcastView;
+        public final TextView highView;
+        public final TextView lowView;
+
+        public ViewHolder(View view) {
+            iconView = (ImageView) view.findViewById(R.id.list_item_icon);
+            dateView = (TextView) view.findViewById(R.id.list_item_date_textview);
+            forcastView = (TextView) view.findViewById(R.id.list_item_forecast_textview);
+            highView = (TextView) view.findViewById(R.id.list_item_high_textview);
+            lowView = (TextView) view.findViewById(R.id.list_item_low_textview);
+        }
     }
 }
