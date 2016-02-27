@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 /**
  * Created by vmlinz on 2/17/16.
  */
@@ -56,14 +58,14 @@ public class ForcastAdapter extends CursorAdapter {
         TextView lowTextView = viewHolder.lowView;
         ImageView iconImageView = viewHolder.iconView;
 
-        // get weatherId
-        int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_ID);
-
         // get metric
         boolean isMetric = Utility.isMetric(context);
 
+        // get weather condition id
+        int weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         // set icon
-        iconImageView.setImageResource(R.mipmap.ic_launcher);
+        Logger.d("weatherConditionId: " + weatherConditionId);
+        iconImageView.setImageResource(Utility.getIconResourceForWeatherCondition(weatherConditionId));
 
         // read date and date textview
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);

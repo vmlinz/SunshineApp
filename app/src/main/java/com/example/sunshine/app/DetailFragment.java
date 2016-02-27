@@ -41,7 +41,8 @@ public class DetailFragment extends Fragment
             WeatherContract.WeatherEntry.COLUMN_HUMIDITY,
             WeatherContract.WeatherEntry.COLUMN_WIND_SPEED,
             WeatherContract.WeatherEntry.COLUMN_DEGREES,
-            WeatherContract.WeatherEntry.COLUMN_PRESSURE
+            WeatherContract.WeatherEntry.COLUMN_PRESSURE,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
     };
 
     // these constants correspond to the projection defined above, and must change if the
@@ -55,6 +56,7 @@ public class DetailFragment extends Fragment
     private static final int COL_WEATHER_WIND_SPEED = 6;
     private static final int COL_WEATHER_DEGREES = 7;
     private static final int COL_WEATHER_PRESSURE = 8;
+    private static final int COL_WEATHER_CONDITION_ID = 9;
 
     private static final int LOADER_ID = 0;
 
@@ -151,7 +153,7 @@ public class DetailFragment extends Fragment
         lowTextView.setText(low);
 
         // set icon
-        iconImageView.setImageResource(R.mipmap.ic_launcher);
+        iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
 
         // set desc
         String desc = cursor.getString(COL_WEATHER_DESC);
