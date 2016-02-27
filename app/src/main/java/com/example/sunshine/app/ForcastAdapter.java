@@ -65,7 +65,11 @@ public class ForcastAdapter extends CursorAdapter {
         int weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         // set icon
         Logger.d("weatherConditionId: " + weatherConditionId);
-        iconImageView.setImageResource(Utility.getIconResourceForWeatherCondition(weatherConditionId));
+        if (getItemViewType(cursor.getPosition()) == VIEW_TYPE_TODAY) {
+            iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherConditionId));
+        } else {
+            iconImageView.setImageResource(Utility.getIconResourceForWeatherCondition(weatherConditionId));
+        }
 
         // read date and date textview
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
