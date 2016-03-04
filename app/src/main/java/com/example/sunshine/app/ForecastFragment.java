@@ -1,6 +1,6 @@
 package com.example.sunshine.app;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.sunshine.app.data.WeatherContract;
+import com.orhanobut.logger.Logger;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -62,6 +63,7 @@ public class ForecastFragment extends Fragment
     static final int COL_COORD_LAT = 7;
     static final int COL_COORD_LONG = 8;
     private String mLocation;
+    private Callback mCallback;
 
     public ForecastFragment() {
     }
@@ -70,6 +72,17 @@ public class ForecastFragment extends Fragment
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (Callback)context;
+        } catch (ClassCastException e) {
+            Logger.e(e, "context is not instance of Callback");
+        }
     }
 
     @Override
@@ -96,11 +109,11 @@ public class ForecastFragment extends Fragment
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor cursor = (Cursor) forecastAdapter.getItem(i);
                 String locationSetting = Utility.getPreferredLocation(getActivity());
-                Intent intent = new Intent(getContext(), DetailActivity.class)
-                        .setData(WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                                locationSetting, cursor.getLong(COL_WEATHER_DATE)
-                        ));
-                startActivity(intent);
+                Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
+                        locationSetting, cursor.getLong(COL_WEATHER_DATE));
+
+                // send weather uri to callback
+                mCallback.onItemSelected(weatherUri);
             }
         });
         return root;
@@ -154,7 +167,7 @@ public class ForecastFragment extends Fragment
         forecastAdapter.swapCursor(null);
     }
 
-    private void onLocationChanged() {
+    void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
@@ -170,5 +183,9 @@ public class ForecastFragment extends Fragment
         }
 
         mLocation = location;
+    }
+
+    public interface Callback {
+        void onItemSelected(Uri weahterUri);
     }
 }

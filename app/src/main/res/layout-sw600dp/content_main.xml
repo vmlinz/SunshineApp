@@ -8,7 +8,7 @@
     tools:context="com.example.sunshine.app.MainActivity">
 
     <fragment
-        android:id="@+id/fragment_forcast"
+        android:id="@+id/fragment_forecast"
         android:name="com.example.sunshine.app.ForecastFragment"
         android:layout_width="0dp"
         android:layout_weight="2"

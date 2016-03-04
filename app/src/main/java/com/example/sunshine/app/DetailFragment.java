@@ -3,6 +3,7 @@ package com.example.sunshine.app;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -28,6 +29,7 @@ import com.orhanobut.logger.Logger;
  */
 public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final String DETAIL_URI = "DETAIL_URI";
     private ShareActionProvider mShareActionProvider;
     private String mForecast;
 
@@ -71,6 +73,7 @@ public class DetailFragment extends Fragment
     private TextView pressureTextView;
     private ImageView iconImageView;
     private TextView monthDayTextView;
+    private Uri weatherUri;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -79,6 +82,11 @@ public class DetailFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            weatherUri = bundle.getParcelable(DETAIL_URI);
+        }
+
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
 
         dateNameTextView = (TextView) root.findViewById(R.id.details_date_name_text_view);
@@ -114,14 +122,12 @@ public class DetailFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Logger.d("In onCreateLoader");
-        Intent intent = getActivity().getIntent();
-
-        if (intent == null || intent.getData() == null) {
+        if (weatherUri == null) {
             return null;
         }
+
         return new CursorLoader(this.getActivity(),
-                intent.getData(),
+                weatherUri,
                 FORECAST_COLUMNS,
                 null,
                 null,
@@ -201,6 +207,16 @@ public class DetailFragment extends Fragment
     private void setShareIntent(Intent intent) {
         if (mShareActionProvider != null) {
             mShareActionProvider.setShareIntent(intent);
+        }
+    }
+
+    void onLocationChanged(String newLocation) {
+        Uri uri = weatherUri;
+
+        if (null != uri) {
+            long date = WeatherContract.WeatherEntry.getDateFromUri(uri);
+            weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(newLocation, date);
+            getLoaderManager().restartLoader(LOADER_ID, null, this);
         }
     }
 }
