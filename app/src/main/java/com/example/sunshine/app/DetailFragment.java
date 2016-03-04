@@ -3,7 +3,6 @@ package com.example.sunshine.app;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -115,9 +114,18 @@ public class DetailFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Uri weatherUri = getActivity().getIntent().getData();
-        Loader<Cursor> loader = new CursorLoader(this.getActivity(), weatherUri, FORECAST_COLUMNS, null, null, null);
-        return loader;
+        Logger.d("In onCreateLoader");
+        Intent intent = getActivity().getIntent();
+
+        if (intent == null || intent.getData() == null) {
+            return null;
+        }
+        return new CursorLoader(this.getActivity(),
+                intent.getData(),
+                FORECAST_COLUMNS,
+                null,
+                null,
+                null);
     }
 
     @Override
