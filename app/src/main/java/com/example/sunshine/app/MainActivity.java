@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String DETAIL_FRAGMENT_TAG = "DFTAG";
     public static final String WEATHER_URI = "WEATHER_URI";
+    public static final String TWOPANE = "TWOPANE";
     private String mLocation;
     private boolean mTwoPane;
 
@@ -121,6 +122,18 @@ public class MainActivity extends AppCompatActivity
         } else {
             Log.d(TAG, "openPreferredLocationInMap: couldn't call " + location + "");
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(TWOPANE, mTwoPane);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        mTwoPane = savedInstanceState.getBoolean(TWOPANE);
+        super.onRestoreInstanceState(savedInstanceState);
     }
 
     @Override

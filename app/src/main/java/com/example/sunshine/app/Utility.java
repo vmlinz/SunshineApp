@@ -135,7 +135,7 @@ public class Utility {
 
     /* This is ported from FetchWeatherTask --- but now we go straight from the cursor to the
        string. */
-    public static String convertCursorRowToUXFormat(Context context, ForcastAdapter forcastAdapter, Cursor cursor) {
+    public static String convertCursorRowToUXFormat(Context context, ForecastAdapter forecastAdapter, Cursor cursor) {
         // get row indices for our cursor
         int idx_max_temp = ForecastFragment.COL_WEATHER_MAX_TEMP;
         int idx_min_temp = ForecastFragment.COL_WEATHER_MIN_TEMP;
