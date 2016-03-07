@@ -67,10 +67,17 @@ public class ForecastFragment extends Fragment
     private Callback mCallback;
     private int mListPosition = 0;
     private ListView mListView;
+    private boolean mUseSpecialToday;
 
     public ForecastFragment() {
     }
 
+    public void setUseSpecialToday(boolean useSpecialToday) {
+        mUseSpecialToday = useSpecialToday;
+        if (forecastAdapter != null) {
+            forecastAdapter.setUseSpecialToady(mUseSpecialToday);
+        }
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -218,6 +225,6 @@ public class ForecastFragment extends Fragment
     }
 
     public interface Callback {
-        void onItemSelected(Uri weahterUri);
+        void onItemSelected(Uri weatherUri);
     }
 }
