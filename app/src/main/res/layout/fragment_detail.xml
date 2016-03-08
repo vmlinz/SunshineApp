@@ -2,57 +2,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="16dp"
     tools:context=".DetailFragment"
     tools:showIn="@layout/content_detail">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:gravity="start"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/details_date_name_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp" />
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="@android:style/TextAppearance.Large" />
 
         <TextView
             android:id="@+id/details_month_day_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp" />
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="16dp">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/details_high_text_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="96sp" />
 
                 <TextView
                     android:id="@+id/details_low_text_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="48sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:layout_weight="1">
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/details_icon_image_view"
@@ -62,7 +70,9 @@
                 <TextView
                     android:id="@+id/details_desc_text_view"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed"
+                    android:textAppearance="@android:style/TextAppearance.Large" />
             </LinearLayout>
 
         </LinearLayout>
@@ -72,22 +82,31 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:gravity="start">
 
             <TextView
                 android:id="@+id/details_humidity_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:textAppearance="@android:style/TextAppearance.Large" />
 
             <TextView
                 android:id="@+id/details_wind_speed_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:textAppearance="@android:style/TextAppearance.Large" />
 
             <TextView
                 android:id="@+id/details_pressure_text_view"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="sans-serif-light"
+                android:textAppearance="@android:style/TextAppearance.Large" />
         </LinearLayout>
 
     </LinearLayout>

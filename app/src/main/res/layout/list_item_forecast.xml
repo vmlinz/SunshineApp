@@ -2,46 +2,59 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
+    android:gravity="center"
     android:minHeight="?android:attr/listPreferredItemHeight"
-    android:background="@drawable/touch_selector"
-    android:padding="16dp">
+    android:background="@drawable/touch_selector" >
 
     <ImageView
         android:id="@+id/list_item_icon"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="60"
         android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
+        android:layout_weight="175"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left" />
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:textAppearance="@android:style/TextAppearance.Large"/>
         <TextView
             android:id="@+id/list_item_forecast_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"/>
+            android:layout_gravity="start"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:textAppearance="@android:style/TextAppearance.Small"/>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="125"
         android:layout_height="wrap_content"
-        android:gravity="end"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
         <TextView
             android:id="@+id/list_item_high_textview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:textAppearance="@android:style/TextAppearance.Large"/>
         <TextView
             android:id="@+id/list_item_low_textview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-condensed"
+            android:textStyle="normal"
+            android:textAppearance="@android:style/TextAppearance.Small"/>
     </LinearLayout>
 
 </LinearLayout>

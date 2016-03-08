@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity
                         .commit();
             } else {
                 mTwoPane = false;
+                getSupportActionBar().setElevation(0f);
             }
         }
 
