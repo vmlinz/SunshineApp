@@ -8,11 +8,14 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 
 /**
  * Created by vmlinz on 3/11/16.
  */
 public class MyView extends View{
+    private String windSpeedDir;
+
     public MyView(Context context) {
         super(context);
     }
@@ -47,5 +50,11 @@ public class MyView extends View{
         Paint paint = new Paint();
         paint.setColor(Color.parseColor("#cc0000"));
         canvas.drawRect(new RectF(0, 0, 100, 100), paint);
+    }
+
+    @Override
+    public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
+        event.getText().add(windSpeedDir);
+        return true;
     }
 }
