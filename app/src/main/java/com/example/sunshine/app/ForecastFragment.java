@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.sunshine.app.data.WeatherContract;
+import com.example.sunshine.app.services.FetchWeatherService;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -171,7 +172,10 @@ public class ForecastFragment extends Fragment
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
         String post = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
         Log.d(TAG, post);
-        new FetchWeatherTask(getActivity()).execute(post);
+
+        FetchWeatherService.startActionFetchWeather(getContext(), post);
+        // new FetchWeatherTask(getActivity()).execute(post);
+
     }
 
     @Override
