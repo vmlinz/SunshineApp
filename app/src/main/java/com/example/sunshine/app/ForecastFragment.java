@@ -1,10 +1,14 @@
 package com.example.sunshine.app;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -176,6 +180,12 @@ public class ForecastFragment extends Fragment
         FetchWeatherService.startActionFetchWeather(getContext(), post);
         // new FetchWeatherTask(getActivity()).execute(post);
 
+        AlarmManager alm = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(getActivity(), FetchWeatherService.AlarmReceiver.class);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+
+        alm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
     }
 
     @Override

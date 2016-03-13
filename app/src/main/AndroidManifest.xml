@@ -47,7 +47,9 @@
 
         <service
             android:name=".services.FetchWeatherService"
-            android:exported="false"></service>
+            android:exported="false"/>
+
+        <receiver android:name=".services.FetchWeatherService$AlarmReceiver" android:enabled="true"/>
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.example.sunshine.app.services;
 
 import android.app.IntentService;
+import android.content.BroadcastReceiver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -347,6 +348,14 @@ public class FetchWeatherService extends IntentService {
         } catch (JSONException e) {
             Logger.t(LOG_TAG).e(e, e.getMessage());
             e.printStackTrace();
+        }
+    }
+
+    static public class AlarmReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Logger.d("AlarmReceiver: " + "Alarm received");
         }
     }
 }
