@@ -174,17 +174,19 @@ public class ForecastFragment extends Fragment
 
     private void updateWeather() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getActivity());
-        String post = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
-        Log.d(TAG, post);
+        String location = sharedPreferences.getString(getString(R.string.pref_location_key), getString(R.string.pref_location_default));
+        Log.d(TAG, location);
 
-        FetchWeatherService.startActionFetchWeather(getContext(), post);
-        // new FetchWeatherTask(getActivity()).execute(post);
+        // FetchWeatherService.startActionFetchWeather(getContext(), location);
+        // new FetchWeatherTask(getActivity()).execute(location);
 
-        AlarmManager alm = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(getActivity(), FetchWeatherService.AlarmReceiver.class);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, 0);
+        intent.setAction(FetchWeatherService.ACTION_FETCH_WEATHER);
+        intent.putExtra(FetchWeatherService.EXTRA_LOCATION_QUERY, location);
+        PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
 
-        alm.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
     }
 
