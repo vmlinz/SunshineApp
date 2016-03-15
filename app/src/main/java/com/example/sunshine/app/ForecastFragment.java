@@ -1,14 +1,10 @@
 package com.example.sunshine.app;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,7 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.sunshine.app.data.WeatherContract;
-import com.example.sunshine.app.services.FetchWeatherService;
+import com.example.sunshine.app.sync.SyncAdapter;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -180,14 +176,16 @@ public class ForecastFragment extends Fragment
         // FetchWeatherService.startActionFetchWeather(getContext(), location);
         // new FetchWeatherTask(getActivity()).execute(location);
 
-        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(getActivity(), FetchWeatherService.AlarmReceiver.class);
-        intent.setAction(FetchWeatherService.ACTION_FETCH_WEATHER);
-        intent.putExtra(FetchWeatherService.EXTRA_LOCATION_QUERY, location);
-        PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager am = (AlarmManager) getActivity().getSystemService(Context.ALARM_SERVICE);
+//        Intent intent = new Intent(getActivity(), FetchWeatherService.AlarmReceiver.class);
+//        intent.setAction(FetchWeatherService.ACTION_FETCH_WEATHER);
+//        intent.putExtra(FetchWeatherService.EXTRA_LOCATION_QUERY, location);
+//        PendingIntent alarmIntent = PendingIntent.getBroadcast(getActivity(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+//
+//        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//                SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
 
-        am.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                SystemClock.elapsedRealtime() + 5 * 1000, alarmIntent);
+        SyncAdapter.syncImmediately(getActivity());
     }
 
     @Override
