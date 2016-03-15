@@ -6,12 +6,11 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 
 import com.example.sunshine.app.R;
+import com.example.sunshine.app.Utils;
 import com.example.sunshine.app.data.WeatherUtils;
 import com.orhanobut.logger.Logger;
 
@@ -38,8 +37,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Logger.t(LOG_TAG).d("onPerformSync Called");
 
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        String location = sharedPreferences.getString(mContext.getString(R.string.pref_location_key), mContext.getString(R.string.pref_location_default));
+        String location = Utils.getPreferredLocation(mContext);
 
         WeatherUtils.handleActionFetchWeather(mContext, location);
     }

@@ -147,7 +147,7 @@ public class WeatherUtils {
      * @param lon             the longitude of the city
      * @return the row ID of the added location.
      */
-    static long addLocation(Context context, String locationSetting, String cityName, double lat, double lon) {
+    public static long addLocation(Context context, String locationSetting, String cityName, double lat, double lon) {
         // Students: First, check if the location with this city name exists in the db
         // If it exists, return the current ID
         // Otherwise, insert it using the content resolver and the base URI
