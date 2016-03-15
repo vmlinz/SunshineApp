@@ -61,21 +61,21 @@ public class ForecastAdapter extends CursorAdapter {
         ImageView iconImageView = viewHolder.iconView;
 
         // get metric
-        boolean isMetric = Utility.isMetric(context);
+        boolean isMetric = Utils.isMetric(context);
 
         // get weather condition id
         int weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         // set icon
         Logger.d("weatherConditionId: " + weatherConditionId);
         if (getItemViewType(cursor.getPosition()) == VIEW_TYPE_TODAY) {
-            iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(weatherConditionId));
+            iconImageView.setImageResource(Utils.getArtResourceForWeatherCondition(weatherConditionId));
         } else {
-            iconImageView.setImageResource(Utility.getIconResourceForWeatherCondition(weatherConditionId));
+            iconImageView.setImageResource(Utils.getIconResourceForWeatherCondition(weatherConditionId));
         }
 
         // read date and date textview
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-        dateTextView.setText(Utility.getFriendlyDayString(context, date));
+        dateTextView.setText(Utils.getFriendlyDayString(context, date));
 
         // read forecast and set forecast textview
         String forecast = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
@@ -83,11 +83,11 @@ public class ForecastAdapter extends CursorAdapter {
 
         // read max temp and set high textview
         float high = cursor.getFloat(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        highTextView.setText(Utility.formatTemperature(context, high, isMetric));
+        highTextView.setText(Utils.formatTemperature(context, high, isMetric));
 
         // read min temp and set low textview
         float low = cursor.getFloat(ForecastFragment.COL_WEATHER_MIN_TEMP);
-        lowTextView.setText(Utility.formatTemperature(context, low, isMetric));
+        lowTextView.setText(Utils.formatTemperature(context, low, isMetric));
     }
 
     public void setUseSpecialToady(boolean useSpecialToady) {

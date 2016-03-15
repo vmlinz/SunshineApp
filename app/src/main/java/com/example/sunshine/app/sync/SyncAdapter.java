@@ -6,29 +6,42 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.example.sunshine.app.R;
+import com.example.sunshine.app.data.WeatherUtils;
 import com.orhanobut.logger.Logger;
 
 /**
  * Created by vmlinz on 3/15/16.
  */
-public class SyncAdapter extends AbstractThreadedSyncAdapter{
-    private static final String TAG = SyncAdapter.class.getSimpleName();
+public class SyncAdapter extends AbstractThreadedSyncAdapter {
+    private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
+    private Context mContext;
 
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
+
+        mContext = context;
     }
 
     public SyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
         super(context, autoInitialize, allowParallelSyncs);
+
+        mContext = context;
     }
 
     @Override
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
-        Logger.d(TAG, "onPerformSync Called");
+        Logger.t(LOG_TAG).d("onPerformSync Called");
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        String location = sharedPreferences.getString(mContext.getString(R.string.pref_location_key), mContext.getString(R.string.pref_location_default));
+
+        WeatherUtils.handleActionFetchWeather(mContext, location);
     }
 
     public static void syncImmediately(Context context) {

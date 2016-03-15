@@ -125,7 +125,7 @@ public class ForecastFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor cursor = (Cursor) forecastAdapter.getItem(i);
-                String locationSetting = Utility.getPreferredLocation(getActivity());
+                String locationSetting = Utils.getPreferredLocation(getActivity());
                 Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                         locationSetting, cursor.getLong(COL_WEATHER_DATE));
 
@@ -190,7 +190,7 @@ public class ForecastFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String locationSetting = Utility.getPreferredLocation(getActivity());
+        String locationSetting = Utils.getPreferredLocation(getActivity());
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
         Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
                 locationSetting, System.currentTimeMillis());
@@ -229,7 +229,7 @@ public class ForecastFragment extends Fragment
     public void onResume() {
         super.onResume();
 
-        String location = Utility.getPreferredLocation(getActivity());
+        String location = Utils.getPreferredLocation(getActivity());
 
         if (location != null && !location.equals(mLocation)) {
             onLocationChanged();

@@ -14,7 +14,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Utility {
+public class Utils {
     // Format used for storing dates in the database.  ALso used for converting those strings
     // back into date objects for comparison/processing.
     public static final String DATE_FORMAT = "yyyyMMdd";
@@ -121,7 +121,7 @@ public class Utility {
      *
      * @param context      Context to use for resource localization
      * @param dateInMillis The db formatted date string, expected to be of the form specified
-     *                     in Utility.DATE_FORMAT
+     *                     in Utils.DATE_FORMAT
      * @return The day in the form of a string formatted "December 6"
      */
     public static String getFormattedMonthDay(Context context, long dateInMillis) {
@@ -157,7 +157,7 @@ public class Utility {
 
     public static String getFormattedWind(Context context, float windSpeed, float degrees) {
         int windFormat;
-        if (Utility.isMetric(context)) {
+        if (Utils.isMetric(context)) {
             windFormat = R.string.format_wind_kmh;
         } else {
             windFormat = R.string.format_wind_mph;

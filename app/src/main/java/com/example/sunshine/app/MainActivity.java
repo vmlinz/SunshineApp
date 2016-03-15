@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mLocation = Utility.getPreferredLocation(this);
+        mLocation = Utils.getPreferredLocation(this);
         if (findViewById(R.id.weather_detail_container) != null) {
             mTwoPane = true;
 
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        String location = Utility.getPreferredLocation(this);
+        String location = Utils.getPreferredLocation(this);
         if (location != null && !location.equals(mLocation)) {
             ForecastFragment ff = (ForecastFragment)getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_forecast);

@@ -144,30 +144,30 @@ public class DetailFragment extends Fragment
     }
 
     private void updateDetailsView(Context context, Cursor cursor) {
-        boolean isMetric = Utility.isMetric(context);
+        boolean isMetric = Utils.isMetric(context);
 
         // set date
-        String date = Utility.getDayName(context,
+        String date = Utils.getDayName(context,
                 cursor.getLong(COL_WEATHER_DATE));
         dateNameTextView.setText(date);
 
         // set month day
-        String monthDay = Utility.getFormattedMonthDay(context,
+        String monthDay = Utils.getFormattedMonthDay(context,
                 cursor.getLong(COL_WEATHER_DATE));
         monthDayTextView.setText(monthDay);
 
         // set high temp
-        String high = Utility.formatTemperature(context,
+        String high = Utils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MAX_TEMP), isMetric);
         highTextView.setText(high);
 
         // set low temp
-        String low = Utility.formatTemperature(context,
+        String low = Utils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MIN_TEMP), isMetric);
         lowTextView.setText(low);
 
         // set icon
-        iconImageView.setImageResource(Utility.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
+        iconImageView.setImageResource(Utils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
 
         // set desc
         String desc = cursor.getString(COL_WEATHER_DESC);
@@ -179,7 +179,7 @@ public class DetailFragment extends Fragment
         humidityTextView.setText(humidity);
 
         // set wind speed and direction
-        String wind = Utility.getFormattedWind(context,
+        String wind = Utils.getFormattedWind(context,
                 cursor.getFloat(COL_WEATHER_WIND_SPEED),
                 cursor.getFloat(COL_WEATHER_DEGREES));
         windTextView.setText(wind);
