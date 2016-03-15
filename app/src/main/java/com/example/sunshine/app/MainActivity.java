@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.sunshine.app.sync.SyncAdapter;
+
 public class MainActivity extends AppCompatActivity
         implements ForecastFragment.Callback{
 
@@ -57,6 +59,9 @@ public class MainActivity extends AppCompatActivity
         // set two pane to forecast fragment
         ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
         ff.setUseSpecialToday(!mTwoPane);
+
+        // initialize sync adapter
+        SyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
