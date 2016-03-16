@@ -99,4 +99,14 @@
     <string name="format_humidity">Humidity: <xliff:g id="humidity">%1.0f</xliff:g> %%</string>
     <string name="sync_account_type">com.example.sunshine.app</string>
     <string name="content_authority">com.example.sunshine.app</string>
+
+    <!-- Notification Format -->
+    <string name="format_notification">
+    Forecast: <xliff:g id="condition">%1$s</xliff:g> High: <xliff:g id="high">%2$s</xliff:g> Low: <xliff:g id="low">%3$s</xliff:g>
+    </string>
+    <!-- Strings related to Notification preference -->
+    <string name="pref_last_notification">last_notification
+    </string>
+    <string name="pref_notifications_new">notifications_new_message</string>
+    <string name="pref_notifications_enable_details">notifications_new_message_vibrate</string>
 </resources>
