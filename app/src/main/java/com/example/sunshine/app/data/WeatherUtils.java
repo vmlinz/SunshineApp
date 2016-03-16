@@ -311,10 +311,23 @@ public class WeatherUtils {
                 inserted = context.getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI, array);
             }
 
-            Logger.t(LOG_TAG).d("FetchWeatherTask Complete. " + inserted + " Inserted");
+            // clean up old data
+            int deleted = deleteOldData(context);
+
+            Logger.t(LOG_TAG).d("Database records inserted: " + inserted + " and old records deleted: " + deleted);
         } catch (JSONException e) {
             Logger.t(LOG_TAG).e(e, e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private static int deleteOldData(Context context) {
+        Time dayTime = new Time();
+        dayTime.setToNow();
+        int julianStartDay = Time.getJulianDay(System.currentTimeMillis(), dayTime.gmtoff);
+
+        return context.getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
+                WeatherContract.WeatherEntry.COLUMN_DATE + " <= ?",
+                new String[] { Long.toString(dayTime.setJulianDay(julianStartDay - 1)) });
     }
 }

@@ -1,6 +1,7 @@
 package com.example.sunshine.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -29,7 +30,7 @@ import com.orhanobut.logger.Logger;
  * A placeholder fragment containing a simple view.
  */
 public class ForecastFragment extends Fragment
-        implements LoaderManager.LoaderCallbacks<Cursor>{
+        implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String TAG = ForecastFragment.class.getSimpleName();
     private static final int LOADER_ID = 1;
     public static final String FORECAST_LIST_POSITION = "FORECAST_LIST_POSITION";
@@ -79,6 +80,7 @@ public class ForecastFragment extends Fragment
             forecastAdapter.setUseSpecialToady(mUseSpecialToday);
         }
     }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,7 +92,7 @@ public class ForecastFragment extends Fragment
         super.onAttach(context);
 
         try {
-            mCallback = (Callback)context;
+            mCallback = (Callback) context;
         } catch (ClassCastException e) {
             Logger.e(e, "context is not instance of Callback");
         }
@@ -116,7 +118,7 @@ public class ForecastFragment extends Fragment
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+                             Bundle savedInstanceState) {
         forecastAdapter = new ForecastAdapter(getActivity(), null, 0);
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         mListView = (ListView) root.findViewById(R.id.listview_forecast);
@@ -155,16 +157,18 @@ public class ForecastFragment extends Fragment
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_forecastfragment, menu);
+        inflater.inflate(R.menu.menu_forecast_fragment, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_refresh) {
-            updateWeather();
+
+        if (id == R.id.action_location) {
+            openPreferredLocationInMap();
             return true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -236,6 +240,33 @@ public class ForecastFragment extends Fragment
         }
 
         mLocation = location;
+    }
+
+    private void openPreferredLocationInMap() {
+        if (null != forecastAdapter) {
+            Cursor cursor = forecastAdapter.getCursor();
+            if (null != cursor) {
+                cursor.moveToPosition(0);
+                String latitude = cursor.getString(COL_COORD_LAT);
+                String longitude = cursor.getString(COL_COORD_LONG);
+
+                Uri geoLocation = Uri.parse("geo:" + latitude + "," + longitude);
+
+                // set implicit intent to view location on a map
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(geoLocation);
+
+                Logger.t(TAG).d(geoLocation.toString());
+
+                // try to resolve and start the map activity
+                if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intent);
+                } else {
+                    Log.d(TAG, "openPreferredLocationInMap: couldn't call " + geoLocation + "");
+                }
+            }
+        }
+
     }
 
     public interface Callback {
