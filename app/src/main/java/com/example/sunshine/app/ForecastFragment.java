@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.sunshine.app.data.WeatherContract;
+import com.example.sunshine.app.data.WeatherUtils;
 import com.example.sunshine.app.sync.SyncAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -75,22 +76,6 @@ public class ForecastFragment extends Fragment
     private boolean mUseSpecialToday;
     private TextView mEmptyTextView;
 
-    public ForecastFragment() {
-    }
-
-    public void setUseSpecialToday(boolean useSpecialToday) {
-        mUseSpecialToday = useSpecialToday;
-        if (forecastAdapter != null) {
-            forecastAdapter.setUseSpecialToady(mUseSpecialToday);
-        }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -103,21 +88,9 @@ public class ForecastFragment extends Fragment
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // get list position and restore it
-        if (savedInstanceState != null) {
-            mListPosition = savedInstanceState.getInt(FORECAST_LIST_POSITION, 0);
-            Logger.d("onActivityCreated: mListPosition = " + mListPosition);
-        }
-
-        getLoaderManager().initLoader(LOADER_ID, null, this);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        updateWeather();
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -151,6 +124,56 @@ public class ForecastFragment extends Fragment
 
         return root;
     }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        // get list position and restore it
+        if (savedInstanceState != null) {
+            mListPosition = savedInstanceState.getInt(FORECAST_LIST_POSITION, 0);
+            Logger.d("onActivityCreated: mListPosition = " + mListPosition);
+        }
+
+        getLoaderManager().initLoader(LOADER_ID, null, this);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateWeather();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        String location = Utils.getPreferredLocation(getActivity());
+
+        if (location != null && !location.equals(mLocation)) {
+            onLocationChanged();
+        }
+
+        mLocation = location;
+
+        PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(listener);
+    }
+
+    public ForecastFragment() {
+    }
+
+    public void setUseSpecialToday(boolean useSpecialToday) {
+        mUseSpecialToday = useSpecialToday;
+        if (forecastAdapter != null) {
+            forecastAdapter.setUseSpecialToady(mUseSpecialToday);
+        }
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -250,19 +273,6 @@ public class ForecastFragment extends Fragment
         getLoaderManager().restartLoader(LOADER_ID, null, this);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        String location = Utils.getPreferredLocation(getActivity());
-
-        if (location != null && !location.equals(mLocation)) {
-            onLocationChanged();
-        }
-
-        mLocation = location;
-    }
-
     private void openPreferredLocationInMap() {
         if (null != forecastAdapter) {
             Cursor cursor = forecastAdapter.getCursor();
@@ -289,6 +299,22 @@ public class ForecastFragment extends Fragment
         }
 
     }
+
+    private SharedPreferences.OnSharedPreferenceChangeListener listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+            switch (WeatherUtils.getLocationStatus(ForecastFragment.this.getContext())) {
+                case WeatherUtils.LOCATION_STATUS_SERVER_DOWN:
+                    ForecastFragment.this.mEmptyTextView.setText(R.string.forecast_empty_server_down);
+                    break;
+                case WeatherUtils.LOCATION_STATUS_SERVER_INVALID:
+                    ForecastFragment.this.mEmptyTextView.setText(R.string.forecast_empty_server_invalid);
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public interface Callback {
         void onItemSelected(Uri weatherUri);

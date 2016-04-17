@@ -112,4 +112,6 @@
     <string name="forecast_empty">No Weather Information Available.</string>
     <string name="forecast_network_disconnected">Network is not connected.</string>
     <string name="pref_location_status_key">pref_location_status_key</string>
+    <string name="forecast_empty_server_down">No weather information available. The server is not returning data.</string>
+    <string name="forecast_empty_server_invalid">No weather information available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
 </resources>
