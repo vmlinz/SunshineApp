@@ -107,7 +107,6 @@ public class WeatherUtils {
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
                 // Nothing to do.
-                setLocationStatus(context, LOCATION_STATUS_SERVER_DOWN);
                 return;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -147,12 +146,14 @@ public class WeatherUtils {
         Logger.t(LOG_TAG).json(forecastJsonStr);
 
         try {
-            setLocationStatus(context, LOCATION_STATUS_OK);
             getWeatherDataFromJson(context, forecastJsonStr, locationQuery);
         } catch (JSONException e) {
             Logger.t(LOG_TAG).e(e, e.getMessage());
             e.printStackTrace();
+            setLocationStatus(context, LOCATION_STATUS_SERVER_INVALID);
         }
+
+        setLocationStatus(context, LOCATION_STATUS_OK);
     }
 
 
