@@ -3,11 +3,15 @@ package com.example.sunshine.app.data;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.annotation.IntDef;
 import android.text.format.Time;
 
 import com.example.sunshine.app.BuildConfig;
+import com.example.sunshine.app.R;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
@@ -18,6 +22,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,6 +33,14 @@ import java.util.Vector;
  * Created by vmlinz on 3/15/16.
  */
 public class WeatherUtils {
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_UNKNOWN})
+    public @interface LocationStatus {}
+    public static final int LOCATION_STATUS_OK = 0;
+    public static final int LOCATION_STATUS_SERVER_DOWN = 1;
+    public static final int LOCATION_STATUS_SERVER_INVALID = 2;
+    public static final int LOCATION_STATUS_UNKNOWN = 3;
 
     private static final String LOG_TAG = WeatherUtils.class.getSimpleName();
 
@@ -79,6 +93,7 @@ public class WeatherUtils {
                 url = new URL(builtUri.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                setLocationStatus(context, LOCATION_STATUS_SERVER_INVALID);
             }
             Logger.t(LOG_TAG).d(url.toString());
 
@@ -92,6 +107,7 @@ public class WeatherUtils {
             StringBuffer buffer = new StringBuffer();
             if (inputStream == null) {
                 // Nothing to do.
+                setLocationStatus(context, LOCATION_STATUS_SERVER_DOWN);
                 return;
             }
             reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -113,6 +129,7 @@ public class WeatherUtils {
             Logger.t(LOG_TAG).e(e, "Error");
             // If the code didn't successfully get the weather data, there's no point in attemping
             // to parse it.
+            setLocationStatus(context, LOCATION_STATUS_SERVER_DOWN);
             return;
         } finally {
             if (urlConnection != null) {
@@ -130,6 +147,7 @@ public class WeatherUtils {
         Logger.t(LOG_TAG).json(forecastJsonStr);
 
         try {
+            setLocationStatus(context, LOCATION_STATUS_OK);
             getWeatherDataFromJson(context, forecastJsonStr, locationQuery);
         } catch (JSONException e) {
             Logger.t(LOG_TAG).e(e, e.getMessage());
@@ -329,5 +347,10 @@ public class WeatherUtils {
         return context.getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
                 WeatherContract.WeatherEntry.COLUMN_DATE + " <= ?",
                 new String[] { Long.toString(dayTime.setJulianDay(julianStartDay - 1)) });
+    }
+
+    private static void setLocationStatus(Context context, @LocationStatus int locationStatus) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        preferences.edit().putInt(context.getString(R.string.pref_location_status_key), locationStatus).apply();
     }
 }

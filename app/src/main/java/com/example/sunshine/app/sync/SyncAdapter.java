@@ -17,7 +17,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.IntDef;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 
@@ -28,20 +27,10 @@ import com.example.sunshine.app.data.WeatherContract;
 import com.example.sunshine.app.data.WeatherUtils;
 import com.orhanobut.logger.Logger;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 /**
  * Created by vmlinz on 3/15/16.
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
-    @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_UNKNOWN})
-    public @interface LocationStatus {}
-    public static final int LOCATION_STATUS_OK = 0;
-    public static final int LOCATION_STATUS_SERVER_DOWN = 1;
-    public static final int LOCATION_STATUS_SERVER_INVALID = 2;
-    public static final int LOCATION_STATUS_UNKNOWN = 3;
 
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static final int SYNC_INTERVAL = 60 * 30;
