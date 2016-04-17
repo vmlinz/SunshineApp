@@ -109,4 +109,6 @@
     </string>
     <string name="pref_notifications_new">notifications_new_message</string>
     <string name="pref_notifications_enable_details">notifications_new_message_vibrate</string>
+    <string name="forecast_empty">No Weather Information Available.</string>
+    <string name="forecast_network_disconnected">Network is not connected.</string>
 </resources>

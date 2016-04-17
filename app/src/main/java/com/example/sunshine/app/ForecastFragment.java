@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.sunshine.app.data.WeatherContract;
 import com.example.sunshine.app.sync.SyncAdapter;
@@ -70,6 +73,7 @@ public class ForecastFragment extends Fragment
     private int mListPosition = 0;
     private ListView mListView;
     private boolean mUseSpecialToday;
+    private TextView mEmptyTextView;
 
     public ForecastFragment() {
     }
@@ -122,6 +126,8 @@ public class ForecastFragment extends Fragment
         forecastAdapter = new ForecastAdapter(getActivity(), null, 0);
         View root = inflater.inflate(R.layout.fragment_main, container, false);
         mListView = (ListView) root.findViewById(R.id.listview_forecast);
+        mEmptyTextView = (TextView) root.findViewById(R.id.textview_forcast_empty);
+        mListView.setEmptyView(mEmptyTextView);
         mListView.setAdapter(forecastAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -210,6 +216,11 @@ public class ForecastFragment extends Fragment
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data.getCount() == 0) {
+            if (!checkNetworkStatus()) {
+                mEmptyTextView.setText(getText(R.string.forecast_empty) + " " + getText(R.string.forecast_network_disconnected));
+            }
+        }
         forecastAdapter.swapCursor(data);
 
         if (mListPosition != ListView.INVALID_POSITION) {
@@ -217,6 +228,16 @@ public class ForecastFragment extends Fragment
             // scroll to saved list view position
             mListView.smoothScrollToPosition(mListPosition);
         }
+    }
+
+    private boolean checkNetworkStatus() {
+        ConnectivityManager cm = (ConnectivityManager) this.getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null) {
+            NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+            return (networkInfo != null) && networkInfo.isConnected();
+        }
+
+        return false;
     }
 
     @Override

@@ -2,13 +2,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_main"
-    tools:context=".ForecastFragment">
+    tools:context=".ForecastFragment"
+    tools:showIn="@layout/activity_main">
 
     <ListView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:id="@+id/listview_forecast"
-        style="@style/ForecastList" >
-    </ListView>
+        style="@style/ForecastList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:id="@+id/textview_forcast_empty"
+        android:text="@string/forecast_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal" />
+
 </FrameLayout>
