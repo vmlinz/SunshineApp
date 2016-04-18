@@ -310,6 +310,8 @@ public class ForecastFragment extends Fragment
                 case WeatherUtils.LOCATION_STATUS_SERVER_INVALID:
                     ForecastFragment.this.mEmptyTextView.setText(R.string.forecast_empty_server_invalid);
                     break;
+                case WeatherUtils.LOCATION_STATUS_LOCATION_INVALID:
+                    ForecastFragment.this.mEmptyTextView.setText(R.string.forecast_empty_location_invalid);
                 default:
                     break;
             }

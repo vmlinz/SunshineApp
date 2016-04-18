@@ -35,14 +35,17 @@ import java.util.Vector;
 public class WeatherUtils {
 
     @Retention(RetentionPolicy.SOURCE)
-    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN, LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_UNKNOWN})
+    @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN,
+            LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_LOCATION_INVALID,
+            LOCATION_STATUS_UNKNOWN})
     public @interface LocationStatus {
     }
 
     public static final int LOCATION_STATUS_OK = 0;
     public static final int LOCATION_STATUS_SERVER_DOWN = 1;
     public static final int LOCATION_STATUS_SERVER_INVALID = 2;
-    public static final int LOCATION_STATUS_UNKNOWN = 3;
+    public static final int LOCATION_STATUS_LOCATION_INVALID = 3;
+    public static final int LOCATION_STATUS_UNKNOWN = 4;
 
     private static final String LOG_TAG = WeatherUtils.class.getSimpleName();
 
@@ -215,6 +218,7 @@ public class WeatherUtils {
         final String OWM_CITY = "city";
         final String OWM_CITY_NAME = "name";
         final String OWM_COORD = "coord";
+        final String OWM_MESSAGE_CODE = "cod";
 
         // Location coordinate
         final String OWM_LATITUDE = "lat";
@@ -238,14 +242,21 @@ public class WeatherUtils {
         final String OWM_WEATHER_ID = "id";
 
         JSONObject forecastJson = new JSONObject(forecastJsonStr);
-        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
 
+        JSONArray weatherArray = forecastJson.getJSONArray(OWM_LIST);
         JSONObject cityJson = forecastJson.getJSONObject(OWM_CITY);
         String cityName = cityJson.getString(OWM_CITY_NAME);
 
         JSONObject cityCoord = cityJson.getJSONObject(OWM_COORD);
         double cityLatitude = cityCoord.getDouble(OWM_LATITUDE);
         double cityLongitude = cityCoord.getDouble(OWM_LONGITUDE);
+
+        if (forecastJson.has(OWM_MESSAGE_CODE)) {
+            int messageCode = forecastJson.getInt(OWM_MESSAGE_CODE);
+            if (messageCode == 404) {
+                WeatherUtils.setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
+            }
+        }
 
         long locationId = addLocation(context, locationSetting, cityName, cityLatitude, cityLongitude);
 
@@ -347,9 +358,13 @@ public class WeatherUtils {
                 new String[]{Long.toString(dayTime.setJulianDay(julianStartDay - 1))});
     }
 
-    private static void setLocationStatus(Context context, @LocationStatus int locationStatus) {
+    public static void setLocationStatus(Context context, @LocationStatus int locationStatus) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         preferences.edit().putInt(context.getString(R.string.pref_location_status_key), locationStatus).apply();
+    }
+
+    public static void resetLocationStatus(Context context) {
+        setLocationStatus(context, LOCATION_STATUS_UNKNOWN);
     }
 
     public static int getLocationStatus(Context context) {

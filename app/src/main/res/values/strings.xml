@@ -114,4 +114,5 @@
     <string name="pref_location_status_key">pref_location_status_key</string>
     <string name="forecast_empty_server_down">No weather information available. The server is not returning data.</string>
     <string name="forecast_empty_server_invalid">No weather information available. The server is not returning valid data. Please check for an updated version of Sunshine.</string>
+    <string name="forecast_empty_location_invalid">No weather information available. The location in settings is not recognized by the weather server.</string>
 </resources>

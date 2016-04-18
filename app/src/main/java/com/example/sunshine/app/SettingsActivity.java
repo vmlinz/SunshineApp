@@ -21,6 +21,8 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
 
+import com.example.sunshine.app.data.WeatherUtils;
+
 import java.util.List;
 
 /**
@@ -194,6 +196,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference("example_list"));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)));
+            findPreference(getString(R.string.pref_location_key)).setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    // reset location status whenever location value changes
+                    WeatherUtils.resetLocationStatus(GeneralPreferenceFragment.this.getActivity());
+                    return false;
+                }
+            });
         }
 
         @Override
