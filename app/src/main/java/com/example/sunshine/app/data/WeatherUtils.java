@@ -253,8 +253,16 @@ public class WeatherUtils {
 
         if (forecastJson.has(OWM_MESSAGE_CODE)) {
             int messageCode = forecastJson.getInt(OWM_MESSAGE_CODE);
-            if (messageCode == 404) {
-                WeatherUtils.setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
+
+            switch (messageCode) {
+                case HttpURLConnection.HTTP_OK:
+                    break;
+                case HttpURLConnection.HTTP_NOT_FOUND:
+                    WeatherUtils.setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
+                    return;
+                default:
+                    setLocationStatus(context, LOCATION_STATUS_SERVER_DOWN);
+                    return;
             }
         }
 
