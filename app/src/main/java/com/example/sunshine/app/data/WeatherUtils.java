@@ -1,5 +1,6 @@
 package com.example.sunshine.app.data;
 
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -93,12 +94,15 @@ public class WeatherUtils {
                     .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
                     .build();
 
+            resetLocationStatus(context);
+
             URL url = null;
             try {
                 url = new URL(builtUri.toString());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 setLocationStatus(context, LOCATION_STATUS_SERVER_INVALID);
+                return;
             }
             Logger.t(LOG_TAG).d(url.toString());
 
@@ -133,7 +137,7 @@ public class WeatherUtils {
             Logger.t(LOG_TAG).e(e, "Error");
             // If the code didn't successfully get the weather data, there's no point in attemping
             // to parse it.
-            setLocationStatus(context, LOCATION_STATUS_SERVER_DOWN);
+            setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
             return;
         } finally {
             if (urlConnection != null) {
@@ -155,7 +159,8 @@ public class WeatherUtils {
         } catch (JSONException e) {
             Logger.t(LOG_TAG).e(e, e.getMessage());
             e.printStackTrace();
-            setLocationStatus(context, LOCATION_STATUS_SERVER_INVALID);
+            setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
+            return;
         }
 
         setLocationStatus(context, LOCATION_STATUS_OK);
@@ -178,22 +183,29 @@ public class WeatherUtils {
         long row = -1;
         Uri uri;
 
-        Cursor cursor = context.getContentResolver().query(WeatherContract.LocationEntry.CONTENT_URI,
-                null, WeatherContract.LocationEntry.COLUMN_CITY_NAME + "=?", new String[]{cityName}, null);
-        if (cursor.moveToFirst() == false) {
-            ContentValues cv = new ContentValues();
-            cv.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
-            cv.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, cityName);
-            cv.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
-            cv.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
-            uri = context.getContentResolver().insert(WeatherContract.LocationEntry.CONTENT_URI, cv);
+        ContentResolver contentResolver = context.getContentResolver();
 
-            row = ContentUris.parseId(uri);
+        Cursor cursor = contentResolver.query(WeatherContract.LocationEntry.CONTENT_URI,
+                null, WeatherContract.LocationEntry.COLUMN_CITY_NAME + "=?", new String[]{cityName}, null);
+
+        ContentValues cv = new ContentValues();
+        cv.put(WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING, locationSetting);
+        cv.put(WeatherContract.LocationEntry.COLUMN_CITY_NAME, cityName);
+        cv.put(WeatherContract.LocationEntry.COLUMN_COORD_LAT, lat);
+        cv.put(WeatherContract.LocationEntry.COLUMN_COORD_LONG, lon);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            // update the old record
+            row = contentResolver.update(WeatherContract.LocationEntry.CONTENT_URI,
+                    cv, WeatherContract.LocationEntry.COLUMN_CITY_NAME + "=?", new String[]{cityName});
         } else {
-            row = cursor.getLong(cursor.getColumnIndex(WeatherContract.LocationEntry._ID));
+            uri = context.getContentResolver().insert(WeatherContract.LocationEntry.CONTENT_URI, cv);
+            row = ContentUris.parseId(uri);
         }
 
-        cursor.close();
+        if (cursor != null) {
+            cursor.close();
+        }
         return row;
     }
 
@@ -258,7 +270,7 @@ public class WeatherUtils {
                 case HttpURLConnection.HTTP_OK:
                     break;
                 case HttpURLConnection.HTTP_NOT_FOUND:
-                    WeatherUtils.setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
+                    setLocationStatus(context, LOCATION_STATUS_LOCATION_INVALID);
                     return;
                 default:
                     setLocationStatus(context, LOCATION_STATUS_SERVER_DOWN);
@@ -269,7 +281,7 @@ public class WeatherUtils {
         long locationId = addLocation(context, locationSetting, cityName, cityLatitude, cityLongitude);
 
         // Insert the new weather information into the database
-        Vector<ContentValues> cVVector = new Vector<ContentValues>(weatherArray.length());
+        Vector<ContentValues> cVVector = new Vector<>(weatherArray.length());
 
         // OWM returns daily forecasts based upon the local time of the city that is being
         // asked for, which means that we need to know the GMT offset to translate this data
