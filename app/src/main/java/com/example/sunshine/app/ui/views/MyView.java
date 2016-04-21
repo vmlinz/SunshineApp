@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.views;
 
 import android.annotation.TargetApi;
 import android.content.Context;

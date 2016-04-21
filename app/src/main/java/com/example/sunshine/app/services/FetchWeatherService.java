@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.sunshine.app.data.WeatherUtils;
+import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;
 
 /**

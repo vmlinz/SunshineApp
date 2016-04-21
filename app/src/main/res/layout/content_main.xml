@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_forecast"
-    android:name="com.example.sunshine.app.ForecastFragment"
+    android:name="com.example.sunshine.app.ui.main.ForecastFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"

@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.main;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,6 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.ui.details.DetailActivity;
+import com.example.sunshine.app.ui.details.DetailFragment;
+import com.example.sunshine.app.ui.settings.SettingsActivity;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.sync.SyncAdapter;
 
 public class MainActivity extends AppCompatActivity
@@ -39,7 +44,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mLocation = Utils.getPreferredLocation(this);
+        mLocation = CommonUtils.getPreferredLocation(this);
         if (findViewById(R.id.weather_detail_container) != null) {
             mTwoPane = true;
 
@@ -65,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
 
-        String location = Utils.getPreferredLocation(this);
+        String location = CommonUtils.getPreferredLocation(this);
         if (location != null && !location.equals(mLocation)) {
             ForecastFragment ff = (ForecastFragment)getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_forecast);

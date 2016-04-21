@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.details;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.ui.settings.SettingsActivity;
 
 public class DetailActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.utils;
 
 /**
  * Created by vmlinz on 2/17/16.
@@ -10,11 +10,15 @@ import android.database.Cursor;
 import android.preference.PreferenceManager;
 import android.text.format.Time;
 
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.ui.main.ForecastAdapter;
+import com.example.sunshine.app.ui.main.ForecastFragment;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Utils {
+public class CommonUtils {
     // Format used for storing dates in the database.  ALso used for converting those strings
     // back into date objects for comparison/processing.
     public static final String DATE_FORMAT = "yyyyMMdd";
@@ -121,7 +125,7 @@ public class Utils {
      *
      * @param context      Context to use for resource localization
      * @param dateInMillis The db formatted date string, expected to be of the form specified
-     *                     in Utils.DATE_FORMAT
+     *                     in CommonUtils.DATE_FORMAT
      * @return The day in the form of a string formatted "December 6"
      */
     public static String getFormattedMonthDay(Context context, long dateInMillis) {
@@ -157,7 +161,7 @@ public class Utils {
 
     public static String getFormattedWind(Context context, float windSpeed, float degrees) {
         int windFormat;
-        if (Utils.isMetric(context)) {
+        if (CommonUtils.isMetric(context)) {
             windFormat = R.string.format_wind_kmh;
         } else {
             windFormat = R.string.format_wind_mph;

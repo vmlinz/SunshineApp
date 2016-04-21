@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.sunshine.app;
+package com.example.sunshine.app.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
-import com.example.sunshine.app.data.WeatherUtils;
 import com.orhanobut.logger.Logger;
 
 public class FetchWeatherTask extends AsyncTask<String, Void, Void> {

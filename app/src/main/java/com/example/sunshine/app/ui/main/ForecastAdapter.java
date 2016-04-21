@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.main;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -61,21 +63,21 @@ public class ForecastAdapter extends CursorAdapter {
         ImageView iconImageView = viewHolder.iconView;
 
         // get metric
-        boolean isMetric = Utils.isMetric(context);
+        boolean isMetric = CommonUtils.isMetric(context);
 
         // get weather condition id
         int weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         // set icon
         Logger.d("weatherConditionId: " + weatherConditionId);
         if (getItemViewType(cursor.getPosition()) == VIEW_TYPE_TODAY) {
-            iconImageView.setImageResource(Utils.getArtResourceForWeatherCondition(weatherConditionId));
+            iconImageView.setImageResource(CommonUtils.getArtResourceForWeatherCondition(weatherConditionId));
         } else {
-            iconImageView.setImageResource(Utils.getIconResourceForWeatherCondition(weatherConditionId));
+            iconImageView.setImageResource(CommonUtils.getIconResourceForWeatherCondition(weatherConditionId));
         }
 
         // read date and date textview
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-        dateTextView.setText(Utils.getFriendlyDayString(context, date));
+        dateTextView.setText(CommonUtils.getFriendlyDayString(context, date));
 
         // read forecast and set forecast textview
         String forecast = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
@@ -83,11 +85,11 @@ public class ForecastAdapter extends CursorAdapter {
 
         // read max temp and set high textview
         float high = cursor.getFloat(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        highTextView.setText(Utils.formatTemperature(context, high, isMetric));
+        highTextView.setText(CommonUtils.formatTemperature(context, high, isMetric));
 
         // read min temp and set low textview
         float low = cursor.getFloat(ForecastFragment.COL_WEATHER_MIN_TEMP);
-        lowTextView.setText(Utils.formatTemperature(context, low, isMetric));
+        lowTextView.setText(CommonUtils.formatTemperature(context, low, isMetric));
     }
 
     public void setUseSpecialToady(boolean useSpecialToady) {

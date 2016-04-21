@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.details;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.data.WeatherContract;
 import com.orhanobut.logger.Logger;
 
@@ -34,7 +36,7 @@ public class DetailFragment extends Fragment
     private String mForecast;
 
     private static final String[] FORECAST_COLUMNS = {
-            WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
+            WeatherContract.WeatherEntry.TABLE_NAME + "" + WeatherContract.WeatherEntry._ID,
             WeatherContract.WeatherEntry.COLUMN_DATE,
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
@@ -144,30 +146,30 @@ public class DetailFragment extends Fragment
     }
 
     private void updateDetailsView(Context context, Cursor cursor) {
-        boolean isMetric = Utils.isMetric(context);
+        boolean isMetric = CommonUtils.isMetric(context);
 
         // set date
-        String date = Utils.getDayName(context,
+        String date = CommonUtils.getDayName(context,
                 cursor.getLong(COL_WEATHER_DATE));
         dateNameTextView.setText(date);
 
         // set month day
-        String monthDay = Utils.getFormattedMonthDay(context,
+        String monthDay = CommonUtils.getFormattedMonthDay(context,
                 cursor.getLong(COL_WEATHER_DATE));
         monthDayTextView.setText(monthDay);
 
         // set high temp
-        String high = Utils.formatTemperature(context,
+        String high = CommonUtils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MAX_TEMP), isMetric);
         highTextView.setText(high);
 
         // set low temp
-        String low = Utils.formatTemperature(context,
+        String low = CommonUtils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MIN_TEMP), isMetric);
         lowTextView.setText(low);
 
         // set icon
-        iconImageView.setImageResource(Utils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
+        iconImageView.setImageResource(CommonUtils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
 
         // set desc
         String desc = cursor.getString(COL_WEATHER_DESC);
@@ -179,7 +181,7 @@ public class DetailFragment extends Fragment
         humidityTextView.setText(humidity);
 
         // set wind speed and direction
-        String wind = Utils.getFormattedWind(context,
+        String wind = CommonUtils.getFormattedWind(context,
                 cursor.getFloat(COL_WEATHER_WIND_SPEED),
                 cursor.getFloat(COL_WEATHER_DEGREES));
         windTextView.setText(wind);
@@ -210,7 +212,7 @@ public class DetailFragment extends Fragment
         }
     }
 
-    void onLocationChanged(String newLocation) {
+    public void onLocationChanged(String newLocation) {
         Uri uri = weatherUri;
 
         if (null != uri) {

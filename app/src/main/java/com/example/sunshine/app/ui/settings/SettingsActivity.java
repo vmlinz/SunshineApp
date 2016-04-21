@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.settings;
 
 
 import android.annotation.TargetApi;
@@ -21,7 +21,8 @@ import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.example.sunshine.app.data.WeatherUtils;
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.utils.WeatherUtils;
 
 import java.util.List;
 

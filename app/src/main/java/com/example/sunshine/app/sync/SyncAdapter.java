@@ -20,11 +20,11 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 
-import com.example.sunshine.app.MainActivity;
+import com.example.sunshine.app.ui.main.MainActivity;
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.Utils;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.data.WeatherContract;
-import com.example.sunshine.app.data.WeatherUtils;
+import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -68,7 +68,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     public void onPerformSync(Account account, Bundle bundle, String s, ContentProviderClient contentProviderClient, SyncResult syncResult) {
         Logger.t(LOG_TAG).d("onPerformSync Called");
 
-        String location = Utils.getPreferredLocation(mContext);
+        String location = CommonUtils.getPreferredLocation(mContext);
 
         WeatherUtils.handleActionFetchWeather(mContext, location);
         notifyWeather();
@@ -144,7 +144,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
         // check if we are to send notifications
         if ((System.currentTimeMillis() - lastSync >= DAY_IN_MILLIS) && sendNotifications) {
-            String location = Utils.getPreferredLocation(context);
+            String location = CommonUtils.getPreferredLocation(context);
 
             Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(location, System.currentTimeMillis());
 
@@ -156,14 +156,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 double low = cursor.getDouble(INDEX_MAX_TEMP);
                 String desc = cursor.getString(INDEX_SHORT_DESC);
 
-                int iconId = Utils.getIconResourceForWeatherCondition(weatherId);
+                int iconId = CommonUtils.getIconResourceForWeatherCondition(weatherId);
                 String title = context.getString(R.string.app_name);
 
                 // get the content text
                 String text = String.format(context.getString(R.string.format_notification),
                         desc,
-                        Utils.formatTemperature(context, high, Utils.isMetric(context)),
-                        Utils.formatTemperature(context, low, Utils.isMetric(context)));
+                        CommonUtils.formatTemperature(context, high, CommonUtils.isMetric(context)),
+                        CommonUtils.formatTemperature(context, low, CommonUtils.isMetric(context)));
 
                 NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 

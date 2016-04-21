@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +25,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.sunshine.app.R;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.data.WeatherContract;
-import com.example.sunshine.app.data.WeatherUtils;
+import com.example.sunshine.app.utils.WeatherUtils;
 import com.example.sunshine.app.sync.SyncAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -47,7 +49,7 @@ public class ForecastFragment extends Fragment
             // On the one hand, that's annoying.  On the other, you can search the weather table
             // using the location set by the user, which is only in the Location table.
             // So the convenience is worth it.
-            WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
+            WeatherContract.WeatherEntry.TABLE_NAME + "build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.3.0/res" + WeatherContract.WeatherEntry._ID,
             WeatherContract.WeatherEntry.COLUMN_DATE,
             WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
             WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
@@ -61,10 +63,10 @@ public class ForecastFragment extends Fragment
     // These indices are tied to FORECAST_COLUMNS.  If FORECAST_COLUMNS changes, these
     // must change.
     static final int COL_WEATHER_ID = 0;
-    static final int COL_WEATHER_DATE = 1;
-    static final int COL_WEATHER_DESC = 2;
-    static final int COL_WEATHER_MAX_TEMP = 3;
-    static final int COL_WEATHER_MIN_TEMP = 4;
+    public static final int COL_WEATHER_DATE = 1;
+    public static final int COL_WEATHER_DESC = 2;
+    public static final int COL_WEATHER_MAX_TEMP = 3;
+    public static final int COL_WEATHER_MIN_TEMP = 4;
     static final int COL_WEATHER_CONDITION_ID = 5;
     static final int COL_LOCATION_SETTING = 6;
     static final int COL_COORD_LAT = 7;
@@ -106,7 +108,7 @@ public class ForecastFragment extends Fragment
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Cursor cursor = (Cursor) forecastAdapter.getItem(i);
-                String locationSetting = Utils.getPreferredLocation(getActivity());
+                String locationSetting = CommonUtils.getPreferredLocation(getActivity());
                 Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
                         locationSetting, cursor.getLong(COL_WEATHER_DATE));
 
@@ -147,7 +149,7 @@ public class ForecastFragment extends Fragment
     public void onResume() {
         super.onResume();
 
-        String location = Utils.getPreferredLocation(getActivity());
+        String location = CommonUtils.getPreferredLocation(getActivity());
 
         if (location != null && !location.equals(mLocation)) {
             onLocationChanged();
@@ -223,7 +225,7 @@ public class ForecastFragment extends Fragment
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String locationSetting = Utils.getPreferredLocation(getActivity());
+        String locationSetting = CommonUtils.getPreferredLocation(getActivity());
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
         Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
                 locationSetting, System.currentTimeMillis());

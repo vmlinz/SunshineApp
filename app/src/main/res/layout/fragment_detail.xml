@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".DetailFragment"
+    tools:context=".ui.details.DetailFragment"
     tools:showIn="@layout/content_detail">
 
     <LinearLayout
@@ -12,7 +12,7 @@
         android:gravity="start"
         android:orientation="vertical">
 
-        <com.example.sunshine.app.MyView
+        <com.example.sunshine.app.ui.views.MyView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

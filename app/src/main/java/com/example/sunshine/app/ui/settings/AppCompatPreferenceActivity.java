@@ -1,4 +1,4 @@
-package com.example.sunshine.app;
+package com.example.sunshine.app.ui.settings;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.example.sunshine.app.data;
+package com.example.sunshine.app.utils;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -13,6 +13,7 @@ import android.text.format.Time;
 
 import com.example.sunshine.app.BuildConfig;
 import com.example.sunshine.app.R;
+import com.example.sunshine.app.data.WeatherContract;
 import com.orhanobut.logger.Logger;
 
 import org.json.JSONArray;
