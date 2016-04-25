@@ -21,9 +21,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.data.WeatherContract;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.orhanobut.logger.Logger;
 
 /**
@@ -139,7 +140,9 @@ public class DetailFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Logger.d("In onLoadFinished");
-        if (!data.moveToFirst()) { return; }
+        if (!data.moveToFirst()) {
+            return;
+        }
 
         Logger.d("updateDetailsView");
         updateDetailsView(getContext(), data);
@@ -176,7 +179,12 @@ public class DetailFragment extends Fragment
         descTextView.setContentDescription(getString(R.string.a11y_forecast, desc));
 
         // set icon
-        iconImageView.setImageResource(CommonUtils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
+        String artResourceUrl = CommonUtils.getArtResourceUrlForWeatherCondition(this.getContext(), cursor.getInt(COL_WEATHER_CONDITION_ID));
+        Logger.d(artResourceUrl);
+        Glide.with(this)
+                .load(artResourceUrl)
+                .fallback(CommonUtils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)))
+                .into(iconImageView);
         iconImageView.setContentDescription(getString(R.string.a11y_forecast_icon, desc));
 
         // set humidity

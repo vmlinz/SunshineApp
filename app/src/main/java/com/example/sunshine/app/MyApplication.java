@@ -8,11 +8,14 @@ import com.orhanobut.logger.Logger;
 /**
  * Created by vmlinz on 1/20/16.
  */
-public class MyApplication extends Application{
+public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Stetho.initializeWithDefaults(this);
+        Stetho.initialize(
+                Stetho.newInitializerBuilder(this)
+                        .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                        .build());
         Logger.init();
     }
 }

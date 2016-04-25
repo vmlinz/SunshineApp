@@ -261,6 +261,47 @@ public class CommonUtils {
         } else if (weatherId >= 802 && weatherId <= 804) {
             return R.drawable.art_clouds;
         }
+
         return -1;
+    }
+
+    /**
+     * Get the weather condition icon from open weather map
+     * @param context
+     * @param weatherId
+     * @return the url string
+     */
+    public static String getArtResourceUrlForWeatherCondition(Context context, int weatherId) {
+        String condition = null;
+
+        if (weatherId >= 200 && weatherId <= 232) {
+            condition = "storm";
+        } else if (weatherId >= 300 && weatherId <= 321) {
+            condition = "light_rain";
+        } else if (weatherId >= 500 && weatherId <= 504) {
+            condition = "rain";
+        } else if (weatherId == 511) {
+            condition = "snow";
+        } else if (weatherId >= 520 && weatherId <= 531) {
+            condition = "rain";
+        } else if (weatherId >= 600 && weatherId <= 622) {
+            condition = "snow";
+        } else if (weatherId >= 701 && weatherId <= 761) {
+            condition = "fog";
+        } else if (weatherId == 761 || weatherId == 781) {
+            condition = "storm";
+        } else if (weatherId == 800) {
+            condition = "clear";
+        } else if (weatherId == 801) {
+            condition = "light_clouds";
+        } else if (weatherId >= 802 && weatherId <= 804) {
+            condition = "clouds";
+        }
+
+        if (condition != null) {
+            return context.getString(R.string.format_art_url, condition);
+        } else {
+            return null;
+        }
     }
 }
