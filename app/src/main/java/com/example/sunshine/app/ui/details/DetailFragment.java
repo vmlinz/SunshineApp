@@ -162,34 +162,41 @@ public class DetailFragment extends Fragment
         String high = CommonUtils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MAX_TEMP), isMetric);
         highTextView.setText(high);
+        highTextView.setContentDescription(getString(R.string.a11y_high_temp, high));
 
         // set low temp
         String low = CommonUtils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MIN_TEMP), isMetric);
         lowTextView.setText(low);
-
-        // set icon
-        iconImageView.setImageResource(CommonUtils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
+        lowTextView.setContentDescription(getString(R.string.a11y_low_temp, high));
 
         // set desc
         String desc = cursor.getString(COL_WEATHER_DESC);
         descTextView.setText(desc);
+        descTextView.setContentDescription(getString(R.string.a11y_forecast, desc));
+
+        // set icon
+        iconImageView.setImageResource(CommonUtils.getArtResourceForWeatherCondition(cursor.getInt(COL_WEATHER_CONDITION_ID)));
+        iconImageView.setContentDescription(getString(R.string.a11y_forecast_icon, desc));
 
         // set humidity
         String humidity = getString(R.string.format_humidity,
                 cursor.getFloat(COL_WEATHER_HUMIDITY));
         humidityTextView.setText(humidity);
+        humidityTextView.setContentDescription(humidityTextView.getText());
 
         // set wind speed and direction
         String wind = CommonUtils.getFormattedWind(context,
                 cursor.getFloat(COL_WEATHER_WIND_SPEED),
                 cursor.getFloat(COL_WEATHER_DEGREES));
         windTextView.setText(wind);
+        windTextView.setContentDescription(windTextView.getText());
 
         // set pressure
         String pressure = getString(R.string.format_pressure,
                 cursor.getFloat(COL_WEATHER_PRESSURE));
         pressureTextView.setText(pressure);
+        pressureTextView.setContentDescription(pressureTextView.getText());
     }
 
     @Override
