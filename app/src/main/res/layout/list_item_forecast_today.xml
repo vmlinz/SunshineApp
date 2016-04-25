@@ -7,7 +7,9 @@
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:paddingLeft="60dp"
-    android:paddingStart="60dp">
+    android:paddingRight="60dp"
+    android:paddingStart="60dp"
+    android:paddingEnd="60dp">
 
     <LinearLayout
         android:layout_width="0dp"
