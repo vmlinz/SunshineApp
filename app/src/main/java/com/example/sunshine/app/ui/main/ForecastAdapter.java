@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.orhanobut.logger.Logger;
@@ -69,11 +70,23 @@ public class ForecastAdapter extends CursorAdapter {
         int weatherConditionId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
         // set icon
         Logger.d("weatherConditionId: " + weatherConditionId);
+
+        String resourceUrl;
+        int fallbackResourceId;
         if (getItemViewType(cursor.getPosition()) == VIEW_TYPE_TODAY) {
-            iconImageView.setImageResource(CommonUtils.getArtResourceForWeatherCondition(weatherConditionId));
+            resourceUrl = CommonUtils.getArtResourceUrlForWeatherCondition(context, weatherConditionId);
+            fallbackResourceId = CommonUtils.getArtResourceForWeatherCondition(weatherConditionId);
         } else {
-            iconImageView.setImageResource(CommonUtils.getIconResourceForWeatherCondition(weatherConditionId));
+            resourceUrl = CommonUtils.getIconResourceUrlForWeatherCondition(context, weatherConditionId);
+            fallbackResourceId = CommonUtils.getIconResourceForWeatherCondition(weatherConditionId);
         }
+
+        Logger.d("icon resource url: " + resourceUrl);
+        Logger.d("fallback resource id: " + fallbackResourceId);
+        Glide.with(context)
+                .load(resourceUrl)
+                .fallback(fallbackResourceId)
+                .into(iconImageView);
 
         // read date and date textview
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
