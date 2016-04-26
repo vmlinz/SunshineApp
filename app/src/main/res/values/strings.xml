@@ -126,5 +126,14 @@
     <string name="a11y_low_temp">High: <xliff:g id="low">%1$s</xliff:g></string>
     <string name="format_art_url" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-xxhdpi/art_<xliff:g id="description">%s</xliff:g>.png</string>
     <string name="format_icon_url" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-xxhdpi/ic_<xliff:g id="description">%s</xliff:g>.png</string>
-
+    <string name="pref_art_pack_title">Icon Pack</string>
+    <string name="pref_art_pack_key" translatable="false">art_pack</string>
+    <string name="pref_art_pack_entry_sunshine">Sunshine</string>
+    <string name="pref_art_pack_entry_cute_dogs">Cute Dogs</string>
+    <string name="pref_art_pack_value_sunshine" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-xxhdpi/art_%s.png</string>
+    <string name="pref_art_pack_value_cute_dogs" translatable="false">https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-mdpi/art_%s.png</string>
+    <string name="pref_units_entry_imperial">Imperial</string>
+    <string name="pref_units_entry_metric">Metric</string>
+    <string name="pref_units_value_imperial">imperial</string>
+    <string name="pref_units_value_metric">metric</string>
 </resources>

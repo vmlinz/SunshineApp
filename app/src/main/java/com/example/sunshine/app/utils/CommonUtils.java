@@ -274,6 +274,7 @@ public class CommonUtils {
      */
     public static String getArtResourceUrlForWeatherCondition(Context context, int weatherId) {
         String condition = null;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (weatherId >= 200 && weatherId <= 232) {
             condition = "storm";
@@ -299,8 +300,11 @@ public class CommonUtils {
             condition = "clouds";
         }
 
+        String artUrlBase = prefs.getString(context.getString(R.string.pref_art_pack_key),
+                context.getString(R.string.pref_art_pack_value_sunshine));
+
         if (condition != null) {
-            return context.getString(R.string.format_art_url, condition);
+            return String.format(artUrlBase, condition);
         } else {
             return null;
         }
@@ -308,7 +312,8 @@ public class CommonUtils {
 
     /**
      * Get icon resource url
-     * @param context The context
+     *
+     * @param context   The context
      * @param weatherId the weather condition id
      * @return the resource url as string
      */

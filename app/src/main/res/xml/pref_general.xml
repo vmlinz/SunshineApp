@@ -40,6 +40,13 @@
         android:singleLine="true" />
 
     <ListPreference
+        android:title="@string/pref_art_pack_title"
+        android:key="@string/pref_art_pack_key"
+        android:defaultValue="@string/pref_art_pack_value_sunshine"
+        android:entryValues="@array/pref_art_pack_values"
+        android:entries="@array/pref_art_pack_entries" />
+
+    <ListPreference
         android:defaultValue="@string/pref_units_value_metric"
         android:entries="@array/pref_units_entries"
         android:entryValues="@array/pref_units_values"

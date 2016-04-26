@@ -211,6 +211,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_example_list)), listener);
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_location_key)), listener);
             bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_units_key)), listener);
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.pref_art_pack_key)), listener);
         }
 
         @Override
