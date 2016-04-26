@@ -12,7 +12,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
+import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,12 +23,15 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.NotificationCompat;
 
-import com.example.sunshine.app.ui.main.MainActivity;
+import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.data.WeatherContract;
+import com.example.sunshine.app.ui.main.MainActivity;
+import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by vmlinz on 3/15/16.
@@ -158,6 +164,32 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
                 int iconId = CommonUtils.getIconResourceForWeatherCondition(weatherId);
                 String title = context.getString(R.string.app_name);
+                Resources resources = context.getResources();
+                int artResourceId = CommonUtils.getArtResourceForWeatherCondition(weatherId);
+                String artUrl = CommonUtils.getArtResourceUrlForWeatherCondition(context, weatherId);
+
+                int largIconWidth = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                        ? resources.getDimensionPixelSize(android.R.dimen.notification_large_icon_width)
+                        : resources.getDimensionPixelSize(R.dimen.notification_large_icon_default);
+
+                int largIconHeight = Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB
+                        ? resources.getDimensionPixelSize(android.R.dimen.notification_large_icon_height)
+                        : resources.getDimensionPixelSize(R.dimen.notification_large_icon_default);
+
+                // retrieve the large icon
+                Bitmap largeIcon;
+                try {
+                    largeIcon = Glide.with(context)
+                            .load(artUrl)
+                            .asBitmap()
+                            .error(artResourceId)
+                            .fitCenter()
+                            .into(largIconWidth, largIconHeight)
+                            .get();
+                } catch (InterruptedException | ExecutionException e) {
+                    Logger.e(e, "Error retrieving large icon from " + artUrl);
+                    largeIcon = BitmapFactory.decodeResource(resources, artResourceId);
+                }
 
                 // get the content text
                 String text = String.format(context.getString(R.string.format_notification),
@@ -182,7 +214,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 builder.setContentTitle(title)
                         .setContentIntent(pendingIntent)
                         .setContentText(text)
-                        .setSmallIcon(iconId);
+                        .setSmallIcon(iconId)
+                        .setLargeIcon(largeIcon);
 
                 // send the notification
                 nm.notify(WEATHER_NOTIFICATION_ID, builder.build());
