@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.sunshine.app.R;
+import com.example.sunshine.app.services.RegistrationIntentService;
 import com.example.sunshine.app.sync.SyncAdapter;
 import com.example.sunshine.app.ui.details.DetailActivity;
 import com.example.sunshine.app.ui.details.DetailFragment;
@@ -72,7 +73,11 @@ public class MainActivity extends AppCompatActivity
 
         if (!checkPlayServices(this)) {
             finish();
+        } else {
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
         }
+
     }
 
     private boolean checkPlayServices(Activity activity) {
