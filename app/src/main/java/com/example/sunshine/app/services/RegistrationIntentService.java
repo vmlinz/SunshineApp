@@ -32,6 +32,8 @@ public class RegistrationIntentService extends IntentService {
 
             // get the sender id
             String authorizeEntity = getString(R.string.gcm_defaultSenderId);
+            Logger.d("authorizeEntity: " + authorizeEntity);
+
             if (authorizeEntity.length() != 0) {
                 try {
                     // get token
@@ -53,6 +55,6 @@ public class RegistrationIntentService extends IntentService {
     }
 
     private void sendRegistrationToServer(String token) {
-        Logger.d(token);
+        Logger.d("Token: " + token);
     }
 }
