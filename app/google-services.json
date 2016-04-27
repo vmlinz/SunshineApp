@@ -1,0 +1,43 @@
+{
+  "project_info": {
+    "project_id": "sunshine-app-gcm-1294",
+    "project_number": "401226647943",
+    "name": "sunshine-app-gcm"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:401226647943:android:25799b4a4c76bfe3",
+        "client_id": "android:com.example.sunshine.app",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "com.example.sunshine.app",
+          "certificate_hash": []
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}

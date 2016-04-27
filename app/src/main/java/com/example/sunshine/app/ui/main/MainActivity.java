@@ -1,5 +1,6 @@
 package com.example.sunshine.app.ui.main;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,19 +13,23 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.sunshine.app.R;
+import com.example.sunshine.app.sync.SyncAdapter;
 import com.example.sunshine.app.ui.details.DetailActivity;
 import com.example.sunshine.app.ui.details.DetailFragment;
 import com.example.sunshine.app.ui.settings.SettingsActivity;
 import com.example.sunshine.app.utils.CommonUtils;
-import com.example.sunshine.app.sync.SyncAdapter;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.orhanobut.logger.Logger;
 
 public class MainActivity extends AppCompatActivity
-        implements ForecastFragment.Callback{
+        implements ForecastFragment.Callback {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String DETAIL_FRAGMENT_TAG = "DFTAG";
     public static final String WEATHER_URI = "WEATHER_URI";
     public static final String TWO_PANE = "TWO_PANE";
+    private static final int PLAY_SERVEICES_RESOLUTION_REQUEST = 9000;
     private String mLocation;
     private boolean mTwoPane;
 
@@ -64,6 +69,30 @@ public class MainActivity extends AppCompatActivity
 
         // initialize sync adapter
         SyncAdapter.initializeSyncAdapter(this);
+
+        if (!checkPlayServices(this)) {
+            finish();
+        }
+    }
+
+    private boolean checkPlayServices(Activity activity) {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int result = googleApiAvailability.isGooglePlayServicesAvailable(activity);
+
+        if (result != ConnectionResult.SUCCESS) {
+            if (googleApiAvailability.isUserResolvableError(result)) {
+                googleApiAvailability.getErrorDialog(activity,
+                        result,
+                        PLAY_SERVEICES_RESOLUTION_REQUEST).show();
+            } else {
+                Logger.d("This device is not supported.");
+            }
+
+            return false;
+        }
+
+        Logger.d("Play Services are available on this device");
+        return true;
     }
 
     @Override
@@ -72,13 +101,13 @@ public class MainActivity extends AppCompatActivity
 
         String location = CommonUtils.getPreferredLocation(this);
         if (location != null && !location.equals(mLocation)) {
-            ForecastFragment ff = (ForecastFragment)getSupportFragmentManager()
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_forecast);
             if (null != ff) {
                 ff.onLocationChanged();
             }
 
-            DetailFragment df = (DetailFragment)getSupportFragmentManager()
+            DetailFragment df = (DetailFragment) getSupportFragmentManager()
                     .findFragmentByTag(DETAIL_FRAGMENT_TAG);
             if (null != df) {
                 df.onLocationChanged(location);
