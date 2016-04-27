@@ -31,11 +31,11 @@ public class RegistrationIntentService extends IntentService {
             InstanceID instanceID = InstanceID.getInstance(this);
 
             // get the sender id
-            String senderId = getString(R.string.gcm_defaultSenderId);
-            if (senderId.length() != 0) {
+            String authorizeEntity = getString(R.string.gcm_defaultSenderId);
+            if (authorizeEntity.length() != 0) {
                 try {
                     // get token
-                    String token = instanceID.getToken(senderId,
+                    String token = instanceID.getToken(authorizeEntity,
                             GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                     // send token to server
                     sendRegistrationToServer(token);
