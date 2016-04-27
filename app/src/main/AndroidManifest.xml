@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <!-- [END gcm_permission] -->
     <permission
-        android:name="com.example.sunshine.app.permission.C2D_MESSAGE"
+        android:name=".permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <application
@@ -24,7 +24,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <meta-data
-            android:name="com.example.sunshine.app.StethoOkHttp3GlideModule"
+            android:name=".StethoOkHttp3GlideModule"
             android:value="GlideModule" />
 
         <activity
@@ -94,9 +94,23 @@
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="com.example.sunshine.app" />
+                <category android:name="." />
             </intent-filter>
         </receiver>
+
+        <service android:name=".services.MyGcmListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <service android:name=".services.MyInstanceIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
