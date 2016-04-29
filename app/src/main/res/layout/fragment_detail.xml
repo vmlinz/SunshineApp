@@ -12,106 +12,42 @@
         android:gravity="start"
         android:orientation="vertical">
 
-        <com.example.sunshine.app.ui.views.MyView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginBottom="16dp" />
 
         <TextView
-            android:id="@+id/details_date_name_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:textAppearance="@android:style/TextAppearance.Large" />
-
-        <TextView
-            android:id="@+id/details_month_day_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:textAppearance="@android:style/TextAppearance.Medium" />
-
-        <LinearLayout
+            android:id="@+id/details_date_and_month_day_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
-            android:orientation="horizontal">
+            android:layout_marginBottom="16dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/details_high_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="96sp" />
-
-                <TextView
-                    android:id="@+id/details_low_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
-                    android:textSize="48sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/details_icon_image_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/details_desc_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed"
-                    android:textAppearance="@android:style/TextAppearance.Large" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/sunshineColorPrimaryLight"
+            android:id="@+id/details_weather_info_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="start">
+            android:paddingBottom="16dp" />
 
-            <TextView
-                android:id="@+id/details_humidity_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif-light"
-                android:textAppearance="@android:style/TextAppearance.Large" />
+        <android.support.v4.widget.Space
+            android:layout_width="match_parent"
+            android:layout_height="30dp" />
 
-            <TextView
-                android:id="@+id/details_wind_speed_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif-light"
-                android:textAppearance="@android:style/TextAppearance.Large" />
-
-            <TextView
-                android:id="@+id/details_pressure_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:fontFamily="sans-serif-light"
-                android:textAppearance="@android:style/TextAppearance.Large" />
-        </LinearLayout>
+        <android.support.v7.widget.RecyclerView
+            android:background="@color/sunshineColorPrimaryLight"
+            android:id="@+id/details_weather_info_extra_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingEnd="32dp"
+            android:paddingLeft="32dp"
+            android:paddingRight="32dp"
+            android:paddingStart="32dp"
+            android:paddingTop="16dp" />
 
     </LinearLayout>
 </ScrollView>
