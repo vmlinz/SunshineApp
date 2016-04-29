@@ -1,26 +1,29 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <!-- base theme -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/sunshineColorPrimary</item>
         <item name="colorPrimaryDark">@color/sunshineColorPrimaryDark</item>
         <item name="colorAccent">@color/sunshineColorAccent</item>
     </style>
 
+    <!-- theme without actionbar -->
     <style name="AppTheme.NoActionBar" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+    <!-- appbar overlay -->
+    <style name="AppTheme.Overlay.AppBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
         <item name="android:displayOptions">useLogo|showHome</item>
         <item name="android:logo">@drawable/ic_logo</item>
     </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <!-- popup overlay -->
+    <style name="AppTheme.Overlay.Popup" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="ForecastList">
+    <!-- Style for forecast listview -->
+    <style name="ForecastListStyle">
+        <!-- Here it's a stub.  In screens of sufficient width, this style includes modifications
+        for two-pane layout -->
     </style>
-
 </resources>

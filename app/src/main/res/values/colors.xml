@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="sunshineColorAccent">#FF4081</color>
-    <color name="sunshineColorGrey">#CCCCCC</color>
-    <color name="sunshineColorLightBlue">#FF64C2F4</color>
-    <color name="sunshineColorPrimary">#FF1CA8F4</color>
+    <color name="sunshineColorAccent">#FFD740</color>
+    <color name="sunshineColorPrimary">#03A9F4</color>
     <color name="sunshineColorPrimaryDark">#0288D1</color>
+    <color name="sunshineColorPrimaryLight">#B3E5FC</color>
     <color name="sunshineColorText">#ffffff</color>
 </resources>
