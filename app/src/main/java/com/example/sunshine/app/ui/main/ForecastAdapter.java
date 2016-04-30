@@ -58,7 +58,7 @@ public class ForecastAdapter extends CursorAdapter {
 
         // get cached view memebers from view holder
         TextView dateTextView = viewHolder.dateView;
-        TextView forecastTextView  = viewHolder.forcastView;
+        TextView forecastTextView = viewHolder.forcastView;
         TextView highTextView = viewHolder.highView;
         TextView lowTextView = viewHolder.lowView;
         ImageView iconImageView = viewHolder.iconView;
@@ -73,13 +73,8 @@ public class ForecastAdapter extends CursorAdapter {
 
         String resourceUrl;
         int fallbackResourceId;
-        if (getItemViewType(cursor.getPosition()) == VIEW_TYPE_TODAY) {
-            resourceUrl = CommonUtils.getArtResourceUrlForWeatherCondition(context, weatherConditionId);
-            fallbackResourceId = CommonUtils.getArtResourceForWeatherCondition(weatherConditionId);
-        } else {
-            resourceUrl = CommonUtils.getIconResourceUrlForWeatherCondition(context, weatherConditionId);
-            fallbackResourceId = CommonUtils.getIconResourceForWeatherCondition(weatherConditionId);
-        }
+        resourceUrl = CommonUtils.getArtResourceUrlForWeatherCondition(context, weatherConditionId);
+        fallbackResourceId = CommonUtils.getArtResourceForWeatherCondition(weatherConditionId);
 
         Logger.d("icon resource url: " + resourceUrl);
         Logger.d("fallback resource id: " + fallbackResourceId);

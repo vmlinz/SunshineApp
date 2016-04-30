@@ -1,71 +1,71 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/sunshineColorPrimary"
-    android:baselineAligned="false"
-    android:gravity="center_vertical"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-    android:paddingLeft="60dp"
-    android:paddingRight="60dp"
-    android:paddingStart="60dp"
-    android:paddingEnd="60dp">
+    android:background="@drawable/touch_selector"
+    android:elevation="4dp" >
 
-    <LinearLayout
-        android:layout_width="0dp"
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="168"
-        android:gravity="start"
-        android:orientation="vertical">
+        app:columnCount="2">
 
         <TextView
             android:id="@+id/list_item_date_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:textColor="@color/sunshineColorText" />
-
-        <TextView
-            android:id="@+id/list_item_high_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/sunshineColorText"
-            android:textSize="72sp" />
-
-        <TextView
-            android:id="@+id/list_item_low_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:paddingLeft="8dp"
-            android:paddingStart="8dp"
-            android:textColor="@color/sunshineColorText"
-            android:textSize="36sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="132"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+            android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginTop="@dimen/abc_list_item_padding_horizontal_material"
+            android:fontFamily="sans-serif"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/secondary_text_light"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="Today, April 03" />
 
         <ImageView
             android:id="@+id/list_item_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxHeight="100dp"
-            android:maxWidth="100dp" />
+            android:layout_width="0dp"
+            android:adjustViewBounds="true"
+            android:maxHeight="96dp"
+            android:maxWidth="96dp"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:src="@drawable/art_clouds" />
 
         <TextView
-            android:id="@id/list_item_forecast_textview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-condensed"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:textColor="@color/sunshineColorText" />
-    </LinearLayout>
+            android:id="@+id/list_item_high_textview"
+            android:layout_width="0dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/primary_text_light"
+            android:textSize="72sp"
+            app:layout_columnWeight="1"
+            app:layout_gravity="fill_horizontal"
+            tools:text="19" />
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/list_item_forecast_textview"
+            android:layout_width="0dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center_horizontal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@android:color/secondary_text_light"
+            app:layout_columnWeight="1"
+            tools:text="Rainy" />
+
+        <TextView
+            android:id="@+id/list_item_low_textview"
+            android:layout_width="0dp"
+            android:layout_marginBottom="@dimen/abc_list_item_padding_horizontal_material"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/secondary_text_light"
+            android:textSize="36sp"
+            app:layout_columnWeight="1"
+            tools:text="10" />
+
+    </android.support.v7.widget.GridLayout>
+</FrameLayout>
