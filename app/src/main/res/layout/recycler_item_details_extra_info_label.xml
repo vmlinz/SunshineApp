@@ -8,7 +8,8 @@
 
     <TextView
         android:id="@+id/details_extra_info_label_text_view"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@android:color/secondary_text_dark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -5,4 +5,5 @@
     <color name="sunshineColorPrimaryDark">#0288D1</color>
     <color name="sunshineColorPrimaryLight">#B3E5FC</color>
     <color name="sunshineColorText">#ffffff</color>
+    <color name="sunshineColorDetailsExtraBackground">#374C55</color>
 </resources>

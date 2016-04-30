@@ -1,53 +1,45 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".ui.details.DetailFragment"
-    tools:showIn="@layout/content_detail">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/details_date_and_month_day_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:orientation="vertical">
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif-condensed"
+        android:gravity="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
 
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginBottom="16dp" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/details_weather_info_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingBottom="16dp" />
 
-        <TextView
-            android:id="@+id/details_date_and_month_day_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="sans-serif-condensed"
-            android:textAppearance="@style/TextAppearance.AppCompat.Headline" />
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:background="@color/sunshineColorPrimaryLight"
-            android:id="@+id/details_weather_info_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp" />
-
-        <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="30dp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:background="@color/sunshineColorPrimaryLight"
-            android:id="@+id/details_weather_info_extra_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="16dp"
-            android:paddingEnd="32dp"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp"
-            android:paddingStart="32dp"
-            android:paddingTop="16dp" />
-
-    </LinearLayout>
-</ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/details_weather_info_extra_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/sunshineColorDetailsExtraBackground"
+        android:paddingBottom="16dp"
+        android:paddingEnd="32dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:paddingStart="32dp"
+        android:paddingTop="16dp" />
+</LinearLayout>

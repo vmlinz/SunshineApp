@@ -70,9 +70,6 @@ public class DetailFragment extends Fragment
     private String mLocation;
 
     // child views
-    private TextView humidityTextView;
-    private TextView windTextView;
-    private TextView pressureTextView;
     private RecyclerView weatherInfoRecyclerView;
     private DetailsInfoAdapter detailsInfoAdapter;
     private Uri weatherUri;
@@ -94,9 +91,6 @@ public class DetailFragment extends Fragment
 
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        humidityTextView = (TextView) root.findViewById(R.id.details_humidity_text_view);
-        windTextView = (TextView) root.findViewById(R.id.details_wind_speed_text_view);
-        pressureTextView = (TextView) root.findViewById(R.id.details_pressure_text_view);
         dateMonthDayTextView = (TextView) root.findViewById(R.id.details_date_and_month_day_text_view);
         weatherInfoRecyclerView = (RecyclerView) root.findViewById(R.id.details_weather_info_recycler_view);
         weatherExtraInfoRecyclerView = (RecyclerView) root.findViewById(R.id.details_weather_info_extra_recycler_view);
