@@ -11,8 +11,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,15 +18,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.data.WeatherContract;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -37,7 +34,6 @@ public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String DETAIL_URI = "DETAIL_URI";
     private ShareActionProvider mShareActionProvider;
-    private String mForecast;
 
     private static final String[] FORECAST_COLUMNS = {
             WeatherContract.WeatherEntry.TABLE_NAME + "" + WeatherContract.WeatherEntry._ID,
@@ -67,15 +63,16 @@ public class DetailFragment extends Fragment
 
     private static final int LOADER_ID = 0;
 
-    private String mLocation;
-
     // child views
-    private RecyclerView weatherInfoRecyclerView;
-    private DetailsInfoAdapter detailsInfoAdapter;
     private Uri weatherUri;
-    private TextView dateMonthDayTextView;
-    private RecyclerView weatherExtraInfoRecyclerView;
-    private DetailsExtraInfoAdapter detailsExtraInfoAdapter;
+    private TextView detailDateTextView;
+    private ImageView detailIconImageView;
+    private TextView detailForecastTextView;
+    private TextView detailHighTempTextView;
+    private TextView detailExtraHumidity;
+    private TextView detailExtraPressure;
+    private TextView detailExtraWind;
+    private TextView detailLowTempTextView;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -91,25 +88,17 @@ public class DetailFragment extends Fragment
 
         View root = inflater.inflate(R.layout.fragment_detail, container, false);
 
-        dateMonthDayTextView = (TextView) root.findViewById(R.id.details_date_and_month_day_text_view);
-        weatherInfoRecyclerView = (RecyclerView) root.findViewById(R.id.details_weather_info_recycler_view);
-        weatherExtraInfoRecyclerView = (RecyclerView) root.findViewById(R.id.details_weather_info_extra_recycler_view);
+        // find details info views
+        detailDateTextView = (TextView) root.findViewById(R.id.detail_date_textview);
+        detailIconImageView = (ImageView) root.findViewById(R.id.detail_icon_imageview);
+        detailForecastTextView = (TextView) root.findViewById(R.id.detail_forecast_textview);
+        detailHighTempTextView = (TextView) root.findViewById(R.id.detail_high_textview);
+        detailLowTempTextView = (TextView) root.findViewById(R.id.detail_low_textview);
 
-        // setup details info
-        detailsInfoAdapter = new DetailsInfoAdapter();
-
-        RecyclerView.LayoutManager detailsInfolayoutManager = new GridLayoutManager(getContext(), 2);
-
-        weatherInfoRecyclerView.setLayoutManager(detailsInfolayoutManager);
-        weatherInfoRecyclerView.setAdapter(detailsInfoAdapter);
-
-        // setup details extra info
-        detailsExtraInfoAdapter = new DetailsExtraInfoAdapter();
-
-        RecyclerView.LayoutManager detailsExtraInfoLayoutManager = new GridLayoutManager(getContext(), 2);
-
-        weatherExtraInfoRecyclerView.setLayoutManager(detailsExtraInfoLayoutManager);
-        weatherExtraInfoRecyclerView.setAdapter(detailsExtraInfoAdapter);
+        // find details extra info
+        detailExtraHumidity = (TextView) root.findViewById(R.id.detail_humidity_value_textview);
+        detailExtraPressure = (TextView) root.findViewById(R.id.detail_pressure_value_textview);
+        detailExtraWind = (TextView) root.findViewById(R.id.detail_wind_value_textview);
 
         return root;
     }
@@ -160,55 +149,41 @@ public class DetailFragment extends Fragment
     private void updateDetailsView(Context context, Cursor cursor) {
         boolean isMetric = CommonUtils.isMetric(context);
 
-        // set date
+        // get info data for detail view
         String date = CommonUtils.getDayName(context,
                 cursor.getLong(COL_WEATHER_DATE));
-        // set month day
         String monthDay = CommonUtils.getFormattedMonthDay(context,
                 cursor.getLong(COL_WEATHER_DATE));
-        // set high temp
         String high = CommonUtils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MAX_TEMP), isMetric);
-        // set low temp
         String low = CommonUtils.formatTemperature(context,
                 cursor.getFloat(COL_WEATHER_MIN_TEMP), isMetric);
-        // set desc
         String desc = cursor.getString(COL_WEATHER_DESC);
-        // set icon
         String artResourceUrl = CommonUtils.getArtResourceUrlForWeatherCondition(this.getContext(), cursor.getInt(COL_WEATHER_CONDITION_ID));
 
-        List<String> detailsInfoItems = new ArrayList<>();
-        detailsInfoItems.add(artResourceUrl);
-        detailsInfoItems.add(high);
-        detailsInfoItems.add(desc);
-        detailsInfoItems.add(low);
 
-        detailsInfoAdapter.setItems(detailsInfoItems);
+        // set info data for detail view
+        detailDateTextView.setText(date + ", " + monthDay);
+        Glide.with(this.getContext())
+                .load(artResourceUrl)
+                .into(detailIconImageView);
+        detailHighTempTextView.setText(high);
+        detailLowTempTextView.setText(low);
+        detailForecastTextView.setText(desc);
 
-        dateMonthDayTextView.setText(date + ", " + monthDay);
-
-        // set humidity
+        // get extra info data
         String humidity = getString(R.string.format_humidity,
                 cursor.getFloat(COL_WEATHER_HUMIDITY));
-
-        // set wind speed and direction
         String wind = CommonUtils.getFormattedWind(context,
                 cursor.getFloat(COL_WEATHER_WIND_SPEED),
                 cursor.getFloat(COL_WEATHER_DEGREES));
-
-        // set pressure
         String pressure = getString(R.string.format_pressure,
                 cursor.getFloat(COL_WEATHER_PRESSURE));
 
-        List<String> extraInfoItems = new ArrayList<>();
-        extraInfoItems.add("Humidity");
-        extraInfoItems.add(humidity);
-        extraInfoItems.add("Pressure");
-        extraInfoItems.add(pressure);
-        extraInfoItems.add("Wind");
-        extraInfoItems.add(wind);
-
-        detailsExtraInfoAdapter.setItems(extraInfoItems);
+        // set extra info to extra views
+        detailExtraHumidity.setText(humidity);
+        detailExtraWind.setText(wind);
+        detailExtraPressure.setText(pressure);
     }
 
     @Override
