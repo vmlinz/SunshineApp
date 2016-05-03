@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/touch_selector"
+    android:paddingLeft="@dimen/forecast_list_item_padding"
+    android:paddingRight="@dimen/forecast_list_item_padding"
     android:gravity="center"
     android:minHeight="?attr/listPreferredItemHeight">
 
@@ -15,8 +17,6 @@
         android:adjustViewBounds="true"
         android:maxHeight="48dp"
         android:maxWidth="48dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
         tools:src="@drawable/art_clear" />
 
     <LinearLayout
@@ -50,8 +50,12 @@
         android:id="@+id/list_item_high_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
+        android:paddingEnd="@dimen/forecast_list_item_padding_text_view"
+        android:paddingStart="@dimen/forecast_list_item_padding_text_view"
+        android:paddingLeft="@dimen/forecast_list_item_padding_text_view"
+        android:paddingRight="@dimen/forecast_list_item_padding_text_view"
         android:fontFamily="sans-serif-condensed"
+        android:gravity="start"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/primary_text_light"
         tools:text="20" />
@@ -60,8 +64,12 @@
         android:id="@+id/list_item_low_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
         android:fontFamily="sans-serif-condensed"
+        android:gravity="start"
+        android:paddingEnd="@dimen/forecast_list_item_padding_text_view"
+        android:paddingStart="@dimen/forecast_list_item_padding_text_view"
+        android:paddingLeft="@dimen/forecast_list_item_padding_text_view"
+        android:paddingRight="@dimen/forecast_list_item_padding_text_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="@android:color/secondary_text_dark"
         tools:text="6" />

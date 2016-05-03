@@ -8,4 +8,9 @@
     <dimen name="details_app_bar_overlap">8dp</dimen>
     <dimen name="detail_view_extra_padding">16dp</dimen>
     <dimen name="today_icon">96dp</dimen>
+    <dimen name="forecast_list_item_padding">16dp</dimen>
+    <dimen name="forecast_list_item_padding_text_view">16dp</dimen>
+    <dimen name="list_icon">40dp</dimen>
+    <dimen name="detail_container_bottom_margin">16dp</dimen>
+    <dimen name="forecast_detail_horizontal_padding">16dp</dimen>
 </resources>

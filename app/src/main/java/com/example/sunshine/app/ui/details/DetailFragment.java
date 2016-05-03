@@ -86,7 +86,7 @@ public class DetailFragment extends Fragment
             weatherUri = bundle.getParcelable(DETAIL_URI);
         }
 
-        View root = inflater.inflate(R.layout.fragment_detail, container, false);
+        View root = inflater.inflate(R.layout.fragment_detail_start, container, false);
 
         // find details info views
         detailDateTextView = (TextView) root.findViewById(R.id.detail_date_textview);
