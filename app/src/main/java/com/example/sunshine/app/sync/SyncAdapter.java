@@ -26,7 +26,7 @@ import android.support.v7.app.NotificationCompat;
 import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.data.WeatherContract;
-import com.example.sunshine.app.ui.main.MainActivity;
+import com.example.sunshine.app.features.main.MainActivity;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;

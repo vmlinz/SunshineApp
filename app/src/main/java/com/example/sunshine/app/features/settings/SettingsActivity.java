@@ -1,4 +1,4 @@
-package com.example.sunshine.app.ui.settings;
+package com.example.sunshine.app.features.settings;
 
 
 import android.annotation.TargetApi;

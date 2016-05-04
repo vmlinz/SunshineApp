@@ -11,7 +11,7 @@ import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.ui.main.MainActivity;
+import com.example.sunshine.app.features.main.MainActivity;
 import com.google.android.gms.gcm.GcmListenerService;
 import com.orhanobut.logger.Logger;
 

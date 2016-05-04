@@ -1,4 +1,4 @@
-package com.example.sunshine.app.ui.views;
+package com.example.sunshine.app.features.views;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

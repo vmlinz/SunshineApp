@@ -1,4 +1,4 @@
-package com.example.sunshine.app.ui.details;
+package com.example.sunshine.app.features.details;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +11,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -100,6 +102,7 @@ public class DetailFragment extends Fragment
         detailExtraPressure = (TextView) root.findViewById(R.id.detail_pressure_value_textview);
         detailExtraWind = (TextView) root.findViewById(R.id.detail_wind_value_textview);
 
+
         return root;
     }
 
@@ -121,9 +124,24 @@ public class DetailFragment extends Fragment
         getLoaderManager().initLoader(LOADER_ID, null, this);
     }
 
+    private void toggleParentCardView(boolean status) {
+        ViewParent viewParent = getView().getParent();
+        if (viewParent instanceof CardView) {
+            if (status) {
+                ((CardView) viewParent).setVisibility(View.VISIBLE);
+            }
+            else {
+                ((CardView) viewParent).setVisibility(View.INVISIBLE);
+            }
+        }
+    }
+
+
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         if (weatherUri == null) {
+
+            toggleParentCardView(false);
             return null;
         }
 
@@ -141,6 +159,8 @@ public class DetailFragment extends Fragment
         if (!data.moveToFirst()) {
             return;
         }
+
+        toggleParentCardView(true);
 
         Logger.d("updateDetailsView");
         updateDetailsView(getContext(), data);

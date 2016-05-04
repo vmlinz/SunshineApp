@@ -1,4 +1,4 @@
-package com.example.sunshine.app.ui.main;
+package com.example.sunshine.app.features.main;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,9 +12,9 @@ import android.view.MenuItem;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.services.RegistrationIntentService;
 import com.example.sunshine.app.sync.SyncAdapter;
-import com.example.sunshine.app.ui.details.DetailActivity;
-import com.example.sunshine.app.ui.details.DetailFragment;
-import com.example.sunshine.app.ui.settings.SettingsActivity;
+import com.example.sunshine.app.features.details.DetailActivity;
+import com.example.sunshine.app.features.details.DetailFragment;
+import com.example.sunshine.app.features.settings.SettingsActivity;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;

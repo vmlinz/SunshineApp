@@ -9,7 +9,7 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <com.example.sunshine.app.ui.views.LocationEditTextPreference
+    <com.example.sunshine.app.features.views.LocationEditTextPreference
         custom:minLength="5"
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"

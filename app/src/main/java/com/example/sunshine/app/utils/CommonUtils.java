@@ -11,8 +11,8 @@ import android.preference.PreferenceManager;
 import android.text.format.Time;
 
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.ui.main.ForecastAdapter;
-import com.example.sunshine.app.ui.main.ForecastFragment;
+import com.example.sunshine.app.features.main.ForecastAdapter;
+import com.example.sunshine.app.features.main.ForecastFragment;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
