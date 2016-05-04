@@ -39,7 +39,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".features.details.DetailActivity"
+            android:name=".features.detail.DetailActivity"
             android:label="@string/title_activity_detail"
             android:parentActivityName=".features.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">

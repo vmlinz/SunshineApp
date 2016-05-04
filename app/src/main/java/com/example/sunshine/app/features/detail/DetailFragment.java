@@ -1,4 +1,4 @@
-package com.example.sunshine.app.features.details;
+package com.example.sunshine.app.features.detail;
 
 import android.content.Context;
 import android.content.Intent;
@@ -101,7 +101,6 @@ public class DetailFragment extends Fragment
         detailExtraHumidity = (TextView) root.findViewById(R.id.detail_humidity_value_textview);
         detailExtraPressure = (TextView) root.findViewById(R.id.detail_pressure_value_textview);
         detailExtraWind = (TextView) root.findViewById(R.id.detail_wind_value_textview);
-
 
         return root;
     }

@@ -1,4 +1,4 @@
-package com.example.sunshine.app.features.details;
+package com.example.sunshine.app.features.detail;
 
 import android.content.Intent;
 import android.os.Bundle;
