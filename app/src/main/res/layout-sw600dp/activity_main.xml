@@ -1,88 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent">
-
-<LinearLayout
-    android:id="@+id/appbar"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:background="?attr/colorPrimary"
-    android:elevation="@dimen/appbar_elevation"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <!-- These FrameLayouts are only there to line the image up with the keyline correctly, since
-         we cannot do addition of dimensions/attributes otherwise -->
-    <FrameLayout
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
-        android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material"
-        >
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="@dimen/appbar_elevation"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <!-- These FrameLayouts are only there to line the image up with the keyline correctly, since
+             we cannot do addition of dimensions/attributes otherwise -->
         <FrameLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/list_icon"
-            android:layout_marginStart="@dimen/list_icon"
-            android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
-            android:paddingStart="@dimen/abc_list_item_padding_horizontal_material">
+            android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
+            android:layout_marginStart="@dimen/abc_list_item_padding_horizontal_material">
 
-            <ImageView
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="?attr/listPreferredItemHeight"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_logo"
-                android:contentDescription="@string/app_name"/>
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/list_icon"
+                android:layout_marginStart="@dimen/list_icon"
+                android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+                android:paddingStart="@dimen/abc_list_item_padding_horizontal_material">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="?attr/listPreferredItemHeight"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_logo" />
+            </FrameLayout>
         </FrameLayout>
-    </FrameLayout>
-</LinearLayout>
+    </LinearLayout>
 
-<!-- This is used as a strut to create two columns in our RelativeLayout -->
-<android.support.v4.widget.Space
-    android:id="@+id/layout_center"
-    android:layout_width="0dp"
-    android:layout_height="0dp"
-    android:layout_centerInParent="true" />
+    <!-- This is used as a strut to create two columns in our RelativeLayout -->
+    <android.support.v4.widget.Space
+        android:id="@+id/layout_center"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_centerInParent="true" />
 
-<fragment
-    android:id="@+id/fragment_forecast"
-    android:name="com.example.sunshine.app.ui.main.ForecastFragment"
-    android:layout_width="0dp"
-    android:layout_height="match_parent"
-    android:layout_alignEnd="@id/layout_center"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignRight="@id/layout_center"
-    android:layout_below="@id/appbar"
-    tools:layout="@android:layout/list_content" />
+    <fragment
+        android:id="@+id/fragment_forecast"
+        android:name="com.example.sunshine.app.ui.main.ForecastFragment"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_alignEnd="@id/layout_center"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@id/layout_center"
+        android:layout_below="@id/appbar"
+        tools:layout="@android:layout/list_content" />
 
-<!-- We set elevation here only so the detail view doesn't get occluded
-     by the AppBar -->
+    <!-- We set elevation here only so the detail view doesn't get occluded
+         by the AppBar -->
 
-<FrameLayout
-    android:id="@+id/weather_detail_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignLeft="@id/layout_center"
-    android:layout_alignParentEnd="true"
-    android:layout_alignParentRight="true"
-    android:layout_marginTop="?attr/actionBarSize"
-    android:layout_alignStart="@id/layout_center"
-    android:elevation="@dimen/appbar_elevation"
-    android:layout_marginRight="@dimen/forecast_list_item_padding"
-    android:layout_marginEnd="@dimen/forecast_list_item_padding"
-    android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
-    android:paddingEnd="@dimen/abc_list_item_padding_horizontal_material"
-    android:paddingBottom="@dimen/detail_container_bottom_margin"
-    />
+    <android.support.v4.widget.Space
+        android:id="@+id/weather_detail_aligner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/layout_center"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignStart="@id/layout_center"
+        android:layout_marginEnd="@dimen/forecast_list_item_padding"
+        android:layout_marginRight="@dimen/forecast_list_item_padding"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:elevation="@dimen/appbar_elevation" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/weather_detail_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@id/weather_detail_aligner"
+        android:layout_alignLeft="@id/weather_detail_aligner"
+        android:layout_alignRight="@id/weather_detail_aligner"
+        android:layout_alignTop="@id/weather_detail_aligner"
+        android:layout_marginBottom="@dimen/forecast_list_item_padding"
+        android:layout_marginEnd="@dimen/forecast_list_item_padding"
+        android:layout_marginRight="@dimen/forecast_list_item_padding"
+        app:cardElevation="@dimen/appbar_elevation"
+        app:cardPreventCornerOverlap="false" />
 
 </RelativeLayout>

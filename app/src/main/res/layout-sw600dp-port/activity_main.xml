@@ -33,17 +33,17 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/details_app_bar_overlap"
         android:layout_below="@id/sunshine_logo_imageview"
-        android:background="@color/sunshineColorPrimary"
-        android:elevation="@dimen/appbar_elevation" />
+        android:background="@color/sunshineColorPrimary" />
 
-    <FrameLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/weather_detail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/sunshine_logo_imageview"
-        android:elevation="@dimen/appbar_elevation"
-        android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
-        android:paddingRight="@dimen/abc_list_item_padding_horizontal_material" />
+        android:layout_marginLeft="@dimen/abc_list_item_padding_horizontal_material"
+        android:layout_marginRight="@dimen/abc_list_item_padding_horizontal_material"
+        app:elevation="@dimen/appbar_elevation"
+        app:cardPreventCornerOverlap="false"/>
 
     <fragment
         android:id="@+id/fragment_forecast"
