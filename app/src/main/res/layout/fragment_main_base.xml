@@ -1,0 +1,22 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="@dimen/appbar_elevation"
+    tools:context=".features.main.ForecastFragment"
+    tools:showIn="@layout/activity_main">
+
+    <ListView
+        android:id="@+id/listview_forecast"
+        style="@style/ForecastList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/textview_forcast_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:text="@string/forecast_empty" />
+
+</FrameLayout>

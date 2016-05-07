@@ -99,7 +99,7 @@ public class ForecastFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         forecastAdapter = new ForecastAdapter(getActivity(), null, 0);
-        View root = inflater.inflate(R.layout.fragment_main, container, false);
+        View root = inflater.inflate(R.layout.fragment_main_base, container, false);
         mListView = (ListView) root.findViewById(R.id.listview_forecast);
         mEmptyTextView = (TextView) root.findViewById(R.id.textview_forcast_empty);
         mListView.setEmptyView(mEmptyTextView);

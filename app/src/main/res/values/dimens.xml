@@ -4,7 +4,7 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="notification_large_icon_default">48dp</dimen>
-    <dimen name="appbar_elevation">0dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
     <dimen name="details_app_bar_overlap">8dp</dimen>
     <dimen name="detail_view_extra_padding">16dp</dimen>
     <dimen name="today_icon">96dp</dimen>
@@ -13,4 +13,5 @@
     <dimen name="list_icon">40dp</dimen>
     <dimen name="detail_container_bottom_margin">16dp</dimen>
     <dimen name="forecast_detail_horizontal_padding">16dp</dimen>
+    <dimen name="landscape_forecast_view_width">360dp</dimen>
 </resources>
