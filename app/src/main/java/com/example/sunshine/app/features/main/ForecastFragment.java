@@ -14,6 +14,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,16 +23,19 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.data.WeatherContract;
-import com.example.sunshine.app.utils.WeatherUtils;
+import com.example.sunshine.app.features.main.viewmodel.Forecast;
 import com.example.sunshine.app.sync.SyncAdapter;
+import com.example.sunshine.app.utils.CommonUtils;
+import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -74,7 +79,7 @@ public class ForecastFragment extends Fragment
     private String mLocation;
     private Callback mCallback;
     private int mListPosition = 0;
-    private ListView mListView;
+    private RecyclerView mListView;
     private boolean mUseSpecialToday;
     private TextView mEmptyTextView;
 
@@ -98,27 +103,13 @@ public class ForecastFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        forecastAdapter = new ForecastAdapter(getActivity(), null, 0);
+        forecastAdapter = new ForecastAdapter(mCallback, null, false);
         View root = inflater.inflate(R.layout.fragment_main_base, container, false);
-        mListView = (ListView) root.findViewById(R.id.listview_forecast);
+        mListView = (RecyclerView) root.findViewById(R.id.listview_forecast);
         mEmptyTextView = (TextView) root.findViewById(R.id.textview_forcast_empty);
-        mListView.setEmptyView(mEmptyTextView);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        mListView.setLayoutManager(layoutManager);
         mListView.setAdapter(forecastAdapter);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Cursor cursor = (Cursor) forecastAdapter.getItem(i);
-                String locationSetting = CommonUtils.getPreferredLocation(getActivity());
-                Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(
-                        locationSetting, cursor.getLong(COL_WEATHER_DATE));
-
-                // send weather uri to callback
-                mCallback.onItemSelected(weatherUri);
-
-                mListPosition = i;
-            }
-        });
-
 
         if (savedInstanceState != null && savedInstanceState.containsKey(FORECAST_LIST_POSITION)) {
             mListPosition = savedInstanceState.getInt(FORECAST_LIST_POSITION);
@@ -246,13 +237,32 @@ public class ForecastFragment extends Fragment
                 mEmptyTextView.setText(getText(R.string.forecast_empty) + " " + getText(R.string.forecast_network_disconnected));
             }
         }
-        forecastAdapter.swapCursor(data);
+        forecastAdapter.setForecasts(weatherModelListFromCursor(data));
 
         if (mListPosition != ListView.INVALID_POSITION) {
             Logger.d("onLoadFinished: mListPosition = " + mListPosition);
             // scroll to saved list view position
-            mListView.smoothScrollToPosition(mListPosition);
+            // mListView.smoothScrollToPosition(mListPosition);
         }
+    }
+
+    private List<Forecast> weatherModelListFromCursor(Cursor cursor) {
+        List<Forecast> forecasts = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            Forecast forecast = new Forecast();
+            forecast.setWeatherId(cursor.getInt(COL_WEATHER_CONDITION_ID));
+            forecast.setDate(cursor.getLong(COL_WEATHER_DATE));
+            forecast.setDesc(cursor.getString(COL_WEATHER_DESC));
+            forecast.setMax(cursor.getFloat(COL_WEATHER_MAX_TEMP));
+            forecast.setMin(cursor.getFloat(COL_WEATHER_MIN_TEMP));
+            forecast.setLatitude(cursor.getString(COL_COORD_LAT));
+            forecast.setLongitude(cursor.getString(COL_COORD_LONG));
+
+            forecasts.add(forecast);
+        }
+
+        return forecasts;
     }
 
     private boolean checkNetworkStatus() {
@@ -267,7 +277,7 @@ public class ForecastFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader loader) {
-        forecastAdapter.swapCursor(null);
+        forecastAdapter.setForecasts(null);
     }
 
     void onLocationChanged() {
@@ -277,11 +287,11 @@ public class ForecastFragment extends Fragment
 
     private void openPreferredLocationInMap() {
         if (null != forecastAdapter) {
-            Cursor cursor = forecastAdapter.getCursor();
-            if (null != cursor) {
-                cursor.moveToPosition(0);
-                String latitude = cursor.getString(COL_COORD_LAT);
-                String longitude = cursor.getString(COL_COORD_LONG);
+            List<Forecast> forecasts = forecastAdapter.getForecasts();
+            if (null != forecasts) {
+                Forecast forecast = forecasts.get(0);
+                String latitude = forecast.getLatitude();
+                String longitude = forecast.getLongitude();
 
                 Uri geoLocation = Uri.parse("geo:" + latitude + "," + longitude);
 

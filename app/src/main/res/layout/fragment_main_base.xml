@@ -6,7 +6,7 @@
     tools:context=".features.main.ForecastFragment"
     tools:showIn="@layout/activity_main">
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/listview_forecast"
         style="@style/ForecastList"
         android:layout_width="match_parent"
@@ -14,6 +14,7 @@
 
     <TextView
         android:id="@+id/textview_forcast_empty"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top|center_horizontal"
