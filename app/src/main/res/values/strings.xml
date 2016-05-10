@@ -140,4 +140,5 @@
     <string name="humidity">Humidity</string>
     <string name="pressure">Pressure</string>
     <string name="wind">Wind</string>
+    <string name="detail_icon_transition_name">TN_DetailIcon</string>
 </resources>

@@ -36,6 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             Bundle bundle = new Bundle();
             bundle.putParcelable(DetailFragment.DETAIL_URI, getIntent().getData());
+            bundle.putBoolean(DetailFragment.DETAIL_TRANSITION_ANIMATION, true);
 
             DetailFragment fragment = new DetailFragment();
             fragment.setArguments(bundle);
@@ -43,6 +44,8 @@ public class DetailActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.weather_detail_container, fragment)
                     .commit();
+
+            supportPostponeEnterTransition();
         }
     }
 

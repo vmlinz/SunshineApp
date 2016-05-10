@@ -2,6 +2,7 @@ package com.example.sunshine.app.features.main;
 
 import android.content.Context;
 import android.net.Uri;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,7 +78,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Context context = holder.itemView.getContext();
         ImageView iconImageView = holder.iconImageView;
         TextView dateTextView = holder.dateTextView;
@@ -94,7 +95,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
                         locationSetting, forecast.getDate());
 
                 // send weather uri to callback
-                callback.get().onItemSelected(weatherUri);
+                callback.get().onItemSelected(weatherUri, holder);
             }
         });
 
@@ -117,6 +118,9 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
                 .load(resourceUrl)
                 .fallback(fallbackResourceId)
                 .into(iconImageView);
+
+        // better animation
+        ViewCompat.setTransitionName(holder.iconImageView, "iconView" + position);
 
         // read date and date textview
         long date = forecast.getDate();

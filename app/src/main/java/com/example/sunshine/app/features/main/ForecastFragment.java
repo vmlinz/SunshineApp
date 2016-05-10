@@ -3,6 +3,7 @@ package com.example.sunshine.app.features.main;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,6 +17,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -82,6 +85,7 @@ public class ForecastFragment extends Fragment
     private RecyclerView mListView;
     private boolean mUseSpecialToday;
     private TextView mEmptyTextView;
+    private boolean mHoldForTransition;
 
     @Override
     public void onAttach(Context context) {
@@ -119,12 +123,26 @@ public class ForecastFragment extends Fragment
     }
 
     @Override
+    public void onInflate(Context context, AttributeSet attrs, Bundle savedInstanceState) {
+        super.onInflate(context, attrs, savedInstanceState);
+
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ForecastFragment, 0, 0);
+        mHoldForTransition = typedArray.getBoolean(R.styleable.ForecastFragment_sharedElementTransitions, false);
+
+        typedArray.recycle();
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // get list position and restore it
         if (savedInstanceState != null) {
             mListPosition = savedInstanceState.getInt(FORECAST_LIST_POSITION, 0);
             Logger.d("onActivityCreated: mListPosition = " + mListPosition);
+        }
+
+        if (mHoldForTransition) {
+            getActivity().supportPostponeEnterTransition();
         }
 
         getLoaderManager().initLoader(LOADER_ID, null, this);
@@ -237,9 +255,21 @@ public class ForecastFragment extends Fragment
                 mEmptyTextView.setVisibility(View.VISIBLE);
                 mEmptyTextView.setText(getText(R.string.forecast_empty) + " " + getText(R.string.forecast_network_disconnected));
             }
+
+            getActivity().supportStartPostponedEnterTransition();
         }
         mEmptyTextView.setVisibility(View.GONE);
         forecastAdapter.setForecasts(weatherModelListFromCursor(data));
+
+        mListView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+            @Override
+            public boolean onPreDraw() {
+                if (mHoldForTransition) {
+                    getActivity().supportStartPostponedEnterTransition();
+                }
+                return true;
+            }
+        });
 
         if (mListPosition != ListView.INVALID_POSITION) {
             Logger.d("onLoadFinished: mListPosition = " + mListPosition);
@@ -333,6 +363,6 @@ public class ForecastFragment extends Fragment
     };
 
     public interface Callback {
-        void onItemSelected(Uri weatherUri);
+        void onItemSelected(Uri weatherUri, ForecastAdapter.ViewHolder holder);
     }
 }

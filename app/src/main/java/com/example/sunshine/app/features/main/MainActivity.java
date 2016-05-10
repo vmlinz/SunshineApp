@@ -6,17 +6,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.sunshine.app.R;
-import com.example.sunshine.app.services.RegistrationIntentService;
-import com.example.sunshine.app.sync.SyncAdapter;
 import com.example.sunshine.app.features.detail.DetailActivity;
 import com.example.sunshine.app.features.detail.DetailFragment;
 import com.example.sunshine.app.features.settings.SettingsActivity;
+import com.example.sunshine.app.services.RegistrationIntentService;
+import com.example.sunshine.app.sync.SyncAdapter;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -152,7 +154,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemSelected(Uri weatherUri) {
+    public void onItemSelected(Uri weatherUri, ForecastAdapter.ViewHolder holder) {
         if (mTwoPane) {
             DetailFragment detailFragment = new DetailFragment();
             Bundle bundle = new Bundle();
@@ -168,7 +170,8 @@ public class MainActivity extends AppCompatActivity
                     .setData(weatherUri);
 
             ActivityOptionsCompat activityOptionsCompat =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this,
+                            new Pair<View, String>(holder.iconImageView, getString(R.string.detail_icon_transition_name)));
             ActivityCompat.startActivity(this, intent, activityOptionsCompat.toBundle());
         }
     }

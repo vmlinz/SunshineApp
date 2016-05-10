@@ -11,8 +11,10 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.ShareActionProvider;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,6 +37,7 @@ import com.orhanobut.logger.Logger;
 public class DetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String DETAIL_URI = "DETAIL_URI";
+    public static final String DETAIL_TRANSITION_ANIMATION = "DETAIL_TRANSITION_ANIMATION";
     private ShareActionProvider mShareActionProvider;
 
     private static final String[] FORECAST_COLUMNS = {
@@ -75,6 +78,7 @@ public class DetailFragment extends Fragment
     private TextView detailExtraPressure;
     private TextView detailExtraWind;
     private TextView detailLowTempTextView;
+    private boolean mTransitionAnimation;
 
     public DetailFragment() {
         setHasOptionsMenu(true);
@@ -86,6 +90,7 @@ public class DetailFragment extends Fragment
         Bundle bundle = getArguments();
         if (bundle != null) {
             weatherUri = bundle.getParcelable(DETAIL_URI);
+            mTransitionAnimation = bundle.getBoolean(DETAIL_TRANSITION_ANIMATION);
         }
 
         View root = inflater.inflate(R.layout.fragment_detail_start, container, false);
@@ -105,16 +110,20 @@ public class DetailFragment extends Fragment
         return root;
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_detail_fragment, menu);
-
-        // get the share action provider
+    private void finishCreatingMenu(Menu menu) {
+        // Retrieve the share menu item
         MenuItem menuItem = menu.findItem(R.id.action_share);
         mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
 
         // create the share intent and set it to share action provider
         setShareIntent(getShareIntent());
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_detail_fragment, menu);
+
+        finishCreatingMenu(menu);
     }
 
     @Override
@@ -128,8 +137,7 @@ public class DetailFragment extends Fragment
         if (viewParent instanceof CardView) {
             if (status) {
                 ((CardView) viewParent).setVisibility(View.VISIBLE);
-            }
-            else {
+            } else {
                 ((CardView) viewParent).setVisibility(View.INVISIBLE);
             }
         }
@@ -161,8 +169,35 @@ public class DetailFragment extends Fragment
 
         toggleParentCardView(true);
 
-        Logger.d("updateDetailsView");
+        // update details view with data from cursor
         updateDetailsView(getContext(), data);
+
+        // update toolbar and menubar with transition animation
+        updateToolbarAndMenuWithAnimation(mTransitionAnimation);
+    }
+
+    private void updateToolbarAndMenuWithAnimation(boolean enableTransitionAnimation) {
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        Toolbar toolbarView = (Toolbar) getView().findViewById(R.id.toolbar);
+
+        // We need to start the enter transition after the data has loaded
+        if (enableTransitionAnimation) {
+            activity.supportStartPostponedEnterTransition();
+
+            if (null != toolbarView) {
+                activity.setSupportActionBar(toolbarView);
+
+                activity.getSupportActionBar().setDisplayShowTitleEnabled(false);
+                activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        } else {
+            if (null != toolbarView) {
+                Menu menu = toolbarView.getMenu();
+                if (null != menu) menu.clear();
+                toolbarView.inflateMenu(R.menu.menu_detail_fragment);
+                finishCreatingMenu(toolbarView.getMenu());
+            }
+        }
     }
 
     private void updateDetailsView(Context context, Cursor cursor) {
