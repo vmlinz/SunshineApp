@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -164,7 +166,10 @@ public class MainActivity extends AppCompatActivity
         } else {
             Intent intent = new Intent(this, DetailActivity.class)
                     .setData(weatherUri);
-            startActivity(intent);
+
+            ActivityOptionsCompat activityOptionsCompat =
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(this);
+            ActivityCompat.startActivity(this, intent, activityOptionsCompat.toBundle());
         }
     }
 }

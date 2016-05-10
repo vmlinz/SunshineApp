@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentTop="true"
-        android:elevation="@dimen/appbar_elevation"
+        android:elevation="0dp"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -22,7 +22,7 @@
         android:layout_below="@+id/toolbar"
         android:background="@color/sunshineColorPrimary"
         android:contentDescription="@string/app_name"
-        android:elevation="@dimen/appbar_elevation"
+        android:elevation="0dp"
         android:scaleType="center"
         android:src="@drawable/ic_logo" />
 

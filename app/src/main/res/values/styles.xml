@@ -7,9 +7,17 @@
     </style>
 
     <!-- theme without actionbar -->
-    <style name="AppTheme.NoActionBar" parent="AppTheme">
+    <style name="AppTheme.NoActionBar" parent="@style/AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Main" parent="@style/AppTheme.NoActionBar">
+
+    </style>
+
+    <style name="AppTheme.Detail" parent="@style/AppTheme.NoActionBar">
+
     </style>
 
     <!-- appbar overlay -->

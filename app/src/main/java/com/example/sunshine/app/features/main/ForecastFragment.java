@@ -103,7 +103,7 @@ public class ForecastFragment extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        forecastAdapter = new ForecastAdapter(mCallback, null, false);
+        forecastAdapter = new ForecastAdapter(mCallback, new ArrayList<Forecast>(), false);
         View root = inflater.inflate(R.layout.fragment_main_base, container, false);
         mListView = (RecyclerView) root.findViewById(R.id.listview_forecast);
         mEmptyTextView = (TextView) root.findViewById(R.id.textview_forcast_empty);
@@ -234,9 +234,11 @@ public class ForecastFragment extends Fragment
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (data.getCount() == 0) {
             if (!checkNetworkStatus()) {
+                mEmptyTextView.setVisibility(View.VISIBLE);
                 mEmptyTextView.setText(getText(R.string.forecast_empty) + " " + getText(R.string.forecast_network_disconnected));
             }
         }
+        mEmptyTextView.setVisibility(View.GONE);
         forecastAdapter.setForecasts(weatherModelListFromCursor(data));
 
         if (mListPosition != ListView.INVALID_POSITION) {
