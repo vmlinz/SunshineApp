@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String DETAIL_FRAGMENT_TAG = "DFTAG";
-    public static final String WEATHER_URI = "WEATHER_URI";
     public static final String TWO_PANE = "TWO_PANE";
     private static final int PLAY_SERVEICES_RESOLUTION_REQUEST = 9000;
     private String mLocation;
@@ -39,9 +38,10 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0f);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         mLocation = CommonUtils.getPreferredLocation(this);
