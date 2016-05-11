@@ -9,7 +9,7 @@
 
     <!-- NOTE: EditTextPreference accepts EditText attributes. -->
     <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <com.example.sunshine.app.features.views.LocationEditTextPreference
+    <EditTextPreference
         custom:minLength="5"
         android:capitalize="words"
         android:defaultValue="@string/pref_default_display_name"
@@ -32,7 +32,7 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_add_friends_to_messages" />
 
-    <EditTextPreference
+    <com.example.sunshine.app.features.views.LocationEditTextPreference
         android:title="@string/pref_location_title"
         android:key="@string/pref_location_key"
         android:defaultValue="@string/pref_location_default"

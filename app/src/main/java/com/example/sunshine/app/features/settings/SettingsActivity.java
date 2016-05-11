@@ -190,6 +190,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
 
                     } else if (key.equals(context.getString(R.string.pref_location_key))) {
                         @WeatherUtils.LocationStatus int status = WeatherUtils.getLocationStatus(context);
+
+                        // clear latitude and longitude set previously
+                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.remove(context.getString(R.string.pref_location_lat));
+                        editor.remove(context.getString(R.string.pref_location_lon));
+                        editor.apply();
+
                         switch (status) {
                             case WeatherUtils.LOCATION_STATUS_OK:
                                 preference.setSummary(stringValue);
@@ -203,10 +211,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             default:
                                 preference.setSummary(stringValue);
                         }
-                    } else if (key.equals(context.getString(R.string.pref_units_key))) {
-                        Logger.d("Units: " + stringValue);
-                    }
-                    else {
+                    } else {
                         // For all other preferences, set the summary to the value's
                         // simple string representation.
                         preference.setSummary(stringValue);
