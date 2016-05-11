@@ -4,6 +4,7 @@ package com.example.sunshine.app.features.settings;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -22,7 +23,13 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.example.sunshine.app.R;
+import com.example.sunshine.app.features.views.LocationEditTextPreference;
+import com.example.sunshine.app.sync.SyncAdapter;
 import com.example.sunshine.app.utils.WeatherUtils;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -60,7 +67,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * preference title) is updated to reflect the value. The summary is also
      * immediately updated upon calling this method. The exact display format is
      * dependent on the type of preference.
-     *
      */
     private static void bindPreferenceSummaryToValue(Preference preference, Preference.OnPreferenceChangeListener listener) {
         // Set the listener to watch for value changes.
@@ -197,11 +203,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                             default:
                                 preference.setSummary(stringValue);
                         }
+                    } else if (key.equals(context.getString(R.string.pref_units_key))) {
+                        Logger.d("Units: " + stringValue);
                     }
                     else {
                         // For all other preferences, set the summary to the value's
                         // simple string representation.
                         preference.setSummary(stringValue);
+                        Logger.d("Summary: " + stringValue);
                     }
                     return true;
                 }
@@ -290,6 +299,42 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 return true;
             }
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == LocationEditTextPreference.PLACE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                // get the place
+                Place place = PlacePicker.getPlace(data, this);
+                // get the readable place
+                String address = place.getAddress().toString();
+                Logger.d(address);
+
+                LatLng latLng = new LatLng(37.422503f, -122.083939f);
+
+                if (TextUtils.isEmpty(address)) {
+                    address = String.format("(%.2f, %.2f)", latLng.latitude, latLng.longitude);
+                }
+
+                // get shared preference
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+                // save location string in shared preference
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(getString(R.string.pref_location_key), address);
+                // save latitude
+                editor.putFloat(getString(R.string.pref_location_lat), (float) (place.getLatLng().latitude));
+                // save longitude
+                editor.putFloat(getString(R.string.pref_location_lon), (float) (place.getLatLng().longitude));
+                editor.apply();
+
+                WeatherUtils.resetLocationStatus(this);
+                SyncAdapter.syncImmediately(this);
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 }

@@ -142,4 +142,6 @@
     <string name="wind">Wind</string>
     <string name="detail_icon_transition_name">TN_DetailIcon</string>
     <string name="pref_current_location_desc">Use my location</string>
+    <string name="pref_location_lat">loc-latitude</string>
+    <string name="pref_location_lon">loc-longitude</string>
 </resources>

@@ -36,6 +36,9 @@ import java.util.Vector;
  */
 public class WeatherUtils {
 
+    private static final float DEFAULT_LATITUDE = 0f;
+    private static final float DEFAULT_LONGITUDE = 0f;
+
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({LOCATION_STATUS_OK, LOCATION_STATUS_SERVER_DOWN,
             LOCATION_STATUS_SERVER_INVALID, LOCATION_STATUS_LOCATION_INVALID,
@@ -75,6 +78,9 @@ public class WeatherUtils {
         String units = "metric";
         int numDays = 14;
 
+        String locationLatitude = String.valueOf(WeatherUtils.getLocationLatitude(context));
+        String locationLongitude = String.valueOf(WeatherUtils.getLocationLongitude(context));
+
         try {
             // Construct the URL for the OpenWeatherMap query
             // Possible parameters are avaiable at OWM's forecast API page, at
@@ -82,18 +88,27 @@ public class WeatherUtils {
             final String FORECAST_BASE_URL =
                     "http://api.openweathermap.org/data/2.5/forecast/daily?";
             final String QUERY_PARAM = "q";
+            final String LAT_PARAM = "lat";
+            final String LON_PARAM = "lon";
             final String FORMAT_PARAM = "mode";
             final String UNITS_PARAM = "units";
             final String DAYS_PARAM = "cnt";
             final String APPID_PARAM = "APPID";
 
-            Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                    .appendQueryParameter(QUERY_PARAM, location)
+            Uri.Builder builder = Uri.parse(FORECAST_BASE_URL).buildUpon()
                     .appendQueryParameter(FORMAT_PARAM, format)
                     .appendQueryParameter(UNITS_PARAM, units)
                     .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                    .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY)
-                    .build();
+                    .appendQueryParameter(APPID_PARAM, BuildConfig.OPEN_WEATHER_MAP_API_KEY);
+
+            if (WeatherUtils.isLocationLatLonAvailable(context)) {
+                builder.appendQueryParameter(LAT_PARAM, locationLatitude)
+                        .appendQueryParameter(LON_PARAM, locationLongitude);
+            } else {
+                builder.appendQueryParameter(QUERY_PARAM, locationQuery);
+            }
+
+            Uri builtUri = builder.build();
 
             resetLocationStatus(context);
 
@@ -391,5 +406,21 @@ public class WeatherUtils {
     public static int getLocationStatus(Context context) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         return preferences.getInt(context.getString(R.string.pref_location_status_key), LOCATION_STATUS_UNKNOWN);
+    }
+
+    public static boolean isLocationLatLonAvailable(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.contains(context.getString(R.string.pref_location_lat))
+                && preferences.contains(context.getString(R.string.pref_location_lon));
+    }
+
+    public static float getLocationLatitude(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getFloat(context.getString(R.string.pref_location_lat), DEFAULT_LATITUDE);
+    }
+
+    public static float getLocationLongitude(Context context) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return preferences.getFloat(context.getString(R.string.pref_location_lon), DEFAULT_LONGITUDE);
     }
 }
