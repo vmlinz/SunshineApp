@@ -27,6 +27,10 @@
             android:name="com.example.sunshine.app.StethoOkHttp3GlideModule"
             android:value="GlideModule" />
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBcAOkw2BzQ8bLnJz-1KjglSg8QK_mwtY0" />
+
         <activity
 
             android:name=".features.main.MainActivity"
@@ -91,29 +95,32 @@
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.example.sunshine.app" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.MyGcmListenerService"
+        <service
+            android:name=".services.MyGcmListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
 
-        <service android:name=".services.MyInstanceIDListenerService"
+        <service
+            android:name=".services.MyInstanceIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
         </service>
 
-        <service android:name=".services.RegistrationIntentService"
-            android:exported="false"/>
+        <service
+            android:name=".services.RegistrationIntentService"
+            android:exported="false" />
     </application>
 
 </manifest>

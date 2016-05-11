@@ -11,10 +11,14 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.sunshine.app.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 /**
  * Created by vmlinz on 4/21/16.
@@ -37,12 +41,30 @@ public class LocationEditTextPreference extends EditTextPreference {
             ta.recycle();
         }
 
+        GoogleApiAvailability availability = GoogleApiAvailability.getInstance();
+        int result = availability.isGooglePlayServicesAvailable(getContext());
+
+        if (result == ConnectionResult.SUCCESS) {
+            setWidgetLayoutResource(R.layout.pref_current_location);
+            Log.d("LocationPreference", "Google api available");
+        }
+
         Log.d("LocationPreference", "minLength = " + mMinLength);
     }
 
     @Override
-    protected View onCreateDialogView() {
-        return super.onCreateDialogView();
+    protected View onCreateView(ViewGroup parent) {
+        View view = super.onCreateView(parent);
+        View currentLocation = view.findViewById(R.id.current_location);
+        currentLocation.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getContext(), "View created!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        return view;
     }
 
     @Override
