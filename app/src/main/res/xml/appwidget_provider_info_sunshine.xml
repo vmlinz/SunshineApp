@@ -5,6 +5,6 @@
     android:minHeight="40dp"
     android:minWidth="40dp"
     android:resizeMode="horizontal|vertical"
-    android:previewImage="@drawable/ic_clear"
+    android:previewImage="@drawable/art_clear"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen" />

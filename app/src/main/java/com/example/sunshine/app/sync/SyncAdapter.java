@@ -27,6 +27,7 @@ import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.data.WeatherContract;
 import com.example.sunshine.app.features.main.MainActivity;
+import com.example.sunshine.app.services.UpdateWidgetTodayService;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;
@@ -77,7 +78,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         String location = CommonUtils.getPreferredLocation(mContext);
 
         WeatherUtils.handleActionFetchWeather(mContext, location);
+
+        // send weather notification
         notifyWeather();
+
+        // broadcast to update widget service
+        Intent intent = new Intent(UpdateWidgetTodayService.ACTION_WEATHER_DATA_UPDATE)
+                .setPackage(mContext.getPackageName());
+        mContext.sendBroadcast(intent);
     }
 
     public static void syncImmediately(Context context) {

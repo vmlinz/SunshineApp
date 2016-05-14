@@ -103,6 +103,8 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".services.UpdateWidgetTodayService" />
+
         <service
             android:name=".services.MyGcmListenerService"
             android:exported="false">
@@ -126,6 +128,7 @@
         <receiver android:name=".features.widgets.SunshineWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
+                <action android:name="com.example.sunshine.app.widget.action.WEATHER_DATA_UPDATE"/>
             </intent-filter>
 
             <meta-data android:name="android.appwidget.provider"

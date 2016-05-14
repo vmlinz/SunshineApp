@@ -1,15 +1,12 @@
 package com.example.sunshine.app.features.widgets;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.RemoteViews;
+import android.os.Bundle;
 
-import com.example.sunshine.app.R;
-import com.example.sunshine.app.features.main.MainActivity;
-import com.example.sunshine.app.utils.CommonUtils;
+import com.example.sunshine.app.services.UpdateWidgetTodayService;
 
 /**
  * Created by vmlinz on 5/13/16.
@@ -18,23 +15,24 @@ public class SunshineWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-        int weatherArtId = R.drawable.art_clear;
-        String description = "Clear";
-        double maxTemp = 24;
-        String maxTempFormatted = CommonUtils.formatTemperature(context, maxTemp, true);
+        startService(context);
+    }
 
+    @Override
+    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
+        startService(context);
+    }
 
-        for (int id : appWidgetIds){
-            Intent intent = new Intent(context, MainActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
 
-            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.appwidget_sunshine);
-            views.setImageViewResource(R.id.appwidget_sunshine_image, weatherArtId);
-            views.setTextViewText(R.id.appwidget_sunshine_text, maxTempFormatted);
-
-            views.setOnClickPendingIntent(R.id.appwidget_sunshine, pendingIntent);
-
-            appWidgetManager.updateAppWidget(id, views);
+        if (UpdateWidgetTodayService.ACTION_WEATHER_DATA_UPDATE.equals(intent.getAction())) {
+            startService(context);
         }
+    }
+
+    private void startService(Context context) {
+        context.startService(new Intent(context, UpdateWidgetTodayService.class));
     }
 }
