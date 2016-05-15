@@ -6,12 +6,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.sunshine.app.features.sync.SyncAdapter;
 import com.example.sunshine.app.services.UpdateWidgetTodayService;
 
 /**
  * Created by vmlinz on 5/13/16.
  */
-public class SunshineWidgetProvider extends AppWidgetProvider {
+public class TodayWidigetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -27,7 +28,7 @@ public class SunshineWidgetProvider extends AppWidgetProvider {
     public void onReceive(Context context, Intent intent) {
         super.onReceive(context, intent);
 
-        if (UpdateWidgetTodayService.ACTION_WEATHER_DATA_UPDATE.equals(intent.getAction())) {
+        if (SyncAdapter.ACTION_WEATHER_DATA_UPDATE.equals(intent.getAction())) {
             startService(context);
         }
     }

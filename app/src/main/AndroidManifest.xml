@@ -70,7 +70,7 @@
         <service
             android:name=".services.FetchWeatherService"
             android:exported="false" />
-        <service android:name=".sync.AccountAuthenticatorService">
+        <service android:name=".features.sync.AccountAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -79,7 +79,7 @@
                 android:resource="@xml/authenticator" />
         </service>
         <service
-            android:name=".sync.SyncService"
+            android:name=".features.sync.SyncService"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
@@ -125,14 +125,32 @@
             android:name=".services.RegistrationIntentService"
             android:exported="false" />
 
-        <receiver android:name=".features.widgets.SunshineWidgetProvider">
+        <service
+            android:name=".services.DetailWidgetRemoteViewsService"
+            android:enabled="@bool/appwidget_detail_enabled"
+            android:exported="false"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".features.widgets.TodayWidigetProvider">
             <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
-                <action android:name="com.example.sunshine.app.widget.action.WEATHER_DATA_UPDATE"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.sunshine.app.widget.action.WEATHER_DATA_UPDATE" />
             </intent-filter>
 
-            <meta-data android:name="android.appwidget.provider"
+            <meta-data
+                android:name="android.appwidget.provider"
                 android:resource="@xml/appwidget_provider_info_sunshine" />
+        </receiver>
+
+        <receiver android:name=".features.widgets.DetailWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.example.sunshine.app.widget.action.WEATHER_DATA_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_provider_detail" />
         </receiver>
     </application>
 

@@ -32,7 +32,7 @@ import android.widget.TextView;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.data.WeatherContract;
 import com.example.sunshine.app.features.main.viewmodel.Forecast;
-import com.example.sunshine.app.sync.SyncAdapter;
+import com.example.sunshine.app.features.sync.SyncAdapter;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;

@@ -1,4 +1,4 @@
-package com.example.sunshine.app.sync;
+package com.example.sunshine.app.features.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -27,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.data.WeatherContract;
 import com.example.sunshine.app.features.main.MainActivity;
-import com.example.sunshine.app.services.UpdateWidgetTodayService;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.example.sunshine.app.utils.WeatherUtils;
 import com.orhanobut.logger.Logger;
@@ -38,6 +37,7 @@ import java.util.concurrent.ExecutionException;
  * Created by vmlinz on 3/15/16.
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
+    public static String ACTION_WEATHER_DATA_UPDATE = "com.example.sunshine.app.widget.action.WEATHER_DATA_UPDATE";
 
     private static final String LOG_TAG = SyncAdapter.class.getSimpleName();
     private static final int SYNC_INTERVAL = 60 * 30;
@@ -83,7 +83,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         notifyWeather();
 
         // broadcast to update widget service
-        Intent intent = new Intent(UpdateWidgetTodayService.ACTION_WEATHER_DATA_UPDATE)
+        Intent intent = new Intent(ACTION_WEATHER_DATA_UPDATE)
                 .setPackage(mContext.getPackageName());
         mContext.sendBroadcast(intent);
     }

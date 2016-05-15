@@ -18,7 +18,7 @@ import com.example.sunshine.app.features.detail.DetailActivity;
 import com.example.sunshine.app.features.detail.DetailFragment;
 import com.example.sunshine.app.features.settings.SettingsActivity;
 import com.example.sunshine.app.services.RegistrationIntentService;
-import com.example.sunshine.app.sync.SyncAdapter;
+import com.example.sunshine.app.features.sync.SyncAdapter;
 import com.example.sunshine.app.utils.CommonUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;

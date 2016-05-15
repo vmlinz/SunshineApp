@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/appwidget_detail_list_item"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/touch_selector">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="?android:attr/listPreferredItemHeight"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+        android:paddingRight="@dimen/abc_list_item_padding_horizontal_material">
+
+        <ImageView
+            android:id="@+id/appwidget_detail_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"
+            android:paddingLeft="@dimen/abc_list_item_padding_horizontal_material"
+            android:paddingRight="@dimen/abc_list_item_padding_horizontal_material"
+            tools:src="@drawable/ic_clear" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/appwidget_detail_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@android:color/primary_text_dark"
+                tools:text="@string/condition_500" />
+
+            <TextView
+                android:id="@+id/appwidget_detail_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textColor="@android:color/primary_text_dark"
+                tools:text="@string/condition_500" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/appwidget_detail_high_temperature"
+            android:layout_width="@dimen/forecast_widget_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/forecast_temperature_space"
+            android:layout_marginRight="@dimen/forecast_temperature_space"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="right"
+            android:textColor="@android:color/primary_text_dark"
+            android:textSize="@dimen/forecast_widget_text_size"
+            tools:text="10" />
+
+        <TextView
+            android:id="@+id/appwidget_detail_low_temperature"
+            android:layout_width="@dimen/forecast_widget_text_width"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-light"
+            android:gravity="right"
+            android:textColor="@color/sunshineColorForecastLowText"
+            android:textSize="@dimen/forecast_widget_text_size"
+            tools:text="7" />
+
+    </LinearLayout>
+
+
+</FrameLayout>

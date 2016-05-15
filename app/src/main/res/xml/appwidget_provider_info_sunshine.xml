@@ -4,7 +4,7 @@
     android:initialLayout="@layout/appwidget_sunshine"
     android:minHeight="40dp"
     android:minWidth="40dp"
-    android:resizeMode="horizontal|vertical"
-    android:previewImage="@drawable/art_clear"
+    android:resizeMode="horizontal"
+    android:previewImage="@drawable/appwidget_preview_today"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen" />

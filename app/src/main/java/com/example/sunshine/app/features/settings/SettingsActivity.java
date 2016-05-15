@@ -24,7 +24,7 @@ import android.view.MenuItem;
 
 import com.example.sunshine.app.R;
 import com.example.sunshine.app.features.views.LocationEditTextPreference;
-import com.example.sunshine.app.sync.SyncAdapter;
+import com.example.sunshine.app.features.sync.SyncAdapter;
 import com.example.sunshine.app.utils.WeatherUtils;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;

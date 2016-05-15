@@ -1,4 +1,4 @@
-package com.example.sunshine.app.sync;
+package com.example.sunshine.app.features.sync;
 
 import android.app.Service;
 import android.content.Intent;
